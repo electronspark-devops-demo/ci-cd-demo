@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="register.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <div class="input-group">
+            <label for="register-username">Username</label>
+            <input type="text" id="register-username" placeholder="Username">
+        </div>
+        <div class="input-group">
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" placeholder="Password">
+        </div>
+        <div class="input-group">
+            <label for="register-email">Email</label>
+            <input type="text" id="register-email" placeholder="Email">
+        </div>
+        <div class="input-group">
+            <label for="register-avatar">Avatar URL</label>
+            <input type="text" id="register-avatar" placeholder="Avatar URL">
+        </div>
+        <button onclick="register()">Register</button>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
