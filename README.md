@@ -1,5 +1,12 @@
 # ci-cd-demo
 
+```bash
+export PROJECT_ID=$(gcloud config get-value project)
+export CLUSTER_REGION="us-central1"
+export STAGING_CLUSTER_NAME="hello-cloudbuild"
+```
+
+
 
 
 使用 gcloud 命令行工具创建 Cloud Build 触发器：
