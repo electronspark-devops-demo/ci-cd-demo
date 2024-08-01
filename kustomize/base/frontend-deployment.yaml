@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: gcr.io/${PROJECT_ID}/frontend
+        image: frontend
         ports:
         - containerPort: 80
 ---

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: blog
-        image: gcr.io/${PROJECT_ID}/blog
+        image: blog
         ports:
         - containerPort: 5002
         env:

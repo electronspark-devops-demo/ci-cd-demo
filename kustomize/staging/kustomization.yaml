@@ -6,3 +6,13 @@ patchesStrategicMerge:
   - patches/frontend-deployment-patch.yaml
   - patches/auth-deployment-patch.yaml
   - patches/blog-deployment-patch.yaml
+
+images:
+  - name: backend
+    newTag: staging
+  - name: frontend
+    newTag: staging
+  - name: auth
+    newTag: staging
+  - name: blog
+    newTag: staging

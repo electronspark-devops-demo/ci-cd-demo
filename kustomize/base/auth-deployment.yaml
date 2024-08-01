@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: auth
-        image: gcr.io/${PROJECT_ID}/auth
+        image: auth
         ports:
         - containerPort: 5001
         env:
