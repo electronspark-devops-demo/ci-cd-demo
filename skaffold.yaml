@@ -4,19 +4,19 @@ metadata:
   name: k8s-microservice-demo
 build:
   artifacts:
-  - image: gcr.io/${PROJECT_ID}/backend
+  - image: gcr.io/{{.PROJECT_ID}}/backend
     context: src/backend
     docker:
       dockerfile: Dockerfile
-  - image: gcr.io/${PROJECT_ID}/frontend
+  - image: gcr.io/{{.PROJECT_ID}}/frontend
     context: src/frontend
     docker:
       dockerfile: Dockerfile
-  - image: gcr.io/${PROJECT_ID}/auth
+  - image: gcr.io/{{.PROJECT_ID}}/auth
     context: src/auth
     docker:
       dockerfile: Dockerfile
-  - image: gcr.io/${PROJECT_ID}/blog
+  - image: gcr.io/{{.PROJECT_ID}}/blog
     context: src/blog
     docker:
       dockerfile: Dockerfile
@@ -29,10 +29,10 @@ profiles:
   - name: staging
     build:
       artifacts:
-      - image: gcr.io/${PROJECT_ID}/backend
-      - image: gcr.io/${PROJECT_ID}/frontend
-      - image: gcr.io/${PROJECT_ID}/auth
-      - image: gcr.io/${PROJECT_ID}/blog
+      - image: gcr.io/{{.PROJECT_ID}}/backend
+      - image: gcr.io/{{.PROJECT_ID}}/frontend
+      - image: gcr.io/{{.PROJECT_ID}}/auth
+      - image: gcr.io/{{.PROJECT_ID}}/blog
     deploy:
       kustomize:
         paths:
@@ -40,10 +40,10 @@ profiles:
   - name: production
     build:
       artifacts:
-      - image: gcr.io/${PROJECT_ID}/backend
-      - image: gcr.io/${PROJECT_ID}/frontend
-      - image: gcr.io/${PROJECT_ID}/auth
-      - image: gcr.io/${PROJECT_ID}/blog
+      - image: gcr.io/{{.PROJECT_ID}}/backend
+      - image: gcr.io/{{.PROJECT_ID}}/frontend
+      - image: gcr.io/{{.PROJECT_ID}}/auth
+      - image: gcr.io/{{.PROJECT_ID}}/blog
     deploy:
       kustomize:
         paths:
