@@ -5,19 +5,19 @@ metadata:
 build:
   artifacts:
   - image: gcr.io/${PROJECT_ID}/backend
-    context: backend
+    context: src/backend
     docker:
       dockerfile: Dockerfile
   - image: gcr.io/${PROJECT_ID}/frontend
-    context: frontend
+    context: src/frontend
     docker:
       dockerfile: Dockerfile
   - image: gcr.io/${PROJECT_ID}/auth
-    context: auth
+    context: src/auth
     docker:
       dockerfile: Dockerfile
   - image: gcr.io/${PROJECT_ID}/blog
-    context: blog
+    context: src/blog
     docker:
       dockerfile: Dockerfile
 deploy:
