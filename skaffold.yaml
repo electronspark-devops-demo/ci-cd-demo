@@ -1,0 +1,27 @@
+apiVersion: skaffold/v2beta27
+kind: Config
+metadata:
+  name: k8s-microservice-demo
+build:
+  artifacts:
+  - image: gcr.io/${PROJECT_ID}/backend
+    context: backend
+    docker:
+      dockerfile: Dockerfile
+  - image: gcr.io/${PROJECT_ID}/frontend
+    context: frontend
+    docker:
+      dockerfile: Dockerfile
+  - image: gcr.io/${PROJECT_ID}/auth
+    context: auth
+    docker:
+      dockerfile: Dockerfile
+  - image: gcr.io/${PROJECT_ID}/blog
+    context: blog
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kustomize:
+    paths:
+    - kustomize/staging
+    - kustomize/production

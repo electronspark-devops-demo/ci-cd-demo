@@ -1,0 +1,8 @@
+bases:
+  - ../base
+
+patchesStrategicMerge:
+  - patches/backend-deployment-patch.yaml
+  - patches/frontend-deployment-patch.yaml
+  - patches/auth-deployment-patch.yaml
+  - patches/blog-deployment-patch.yaml
