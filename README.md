@@ -1,11 +1,25 @@
 # ci-cd-demo
 
+# 设置环境变量
 ```bash
 export PROJECT_ID=$(gcloud config get-value project)
 export CLUSTER_REGION="us-central1"
 export STAGING_CLUSTER_NAME="hello-cloudbuild"
+export DEFAULT_REPO=gcr.io/$PROJECT_ID
+export FRONTEND_DOMAIN=demo.electronspark.xyz
+export BACKEND_DOMAIN=demo-backend.electronspark.xyz
 ```
 
+
+# 获取 GKE 集群凭据
+```bash
+gcloud container clusters get-credentials $STAGING_CLUSTER_NAME --region $CLUSTER_REGION
+```
+
+# 使用 Skaffold 进行部署，并指定默认的镜像仓库和域名
+```bash
+skaffold run -f=skaffold.yaml -p staging --default-repo=$DEFAULT_REPO
+```
 
 
 
