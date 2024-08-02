@@ -32,5 +32,6 @@ def add_item():
     return jsonify({'id': new_item.id, 'name': new_item.name})
 
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     app.run(host='0.0.0.0', port=5000)
