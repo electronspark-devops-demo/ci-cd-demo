@@ -14,3 +14,8 @@ images:
     newName: auth
   - name: blog
     newName: blog
+configMapGenerator:
+  - name: domain-config
+    literals:
+      - FRONTEND_DOMAIN=${FRONTEND_DOMAIN}
+      - BACKEND_DOMAIN=${BACKEND_DOMAIN}

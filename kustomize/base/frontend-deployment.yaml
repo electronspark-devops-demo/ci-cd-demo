@@ -18,6 +18,12 @@ spec:
         image: frontend
         ports:
         - containerPort: 80
+        env:
+        - name: FRONTEND_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: domain-config
+              key: FRONTEND_DOMAIN
 ---
 apiVersion: v1
 kind: Service

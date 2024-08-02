@@ -1,5 +1,3 @@
-window._env_ = {
-    AUTH_API_URL: "$AUTH_API_URL",
-    BLOG_API_URL: "$BLOG_API_URL"
-  };
-  
+window.config = {
+  API_BASE_URL: "http://${BACKEND_DOMAIN}/api",
+};

@@ -3,7 +3,7 @@ let token = null;
 async function login() {
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
-    const response = await fetch('http://localhost:5001/login', {
+    const response = await fetch(`${window.config.API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ async function register() {
     const password = document.getElementById('register-password').value;
     const email = document.getElementById('register-email').value;
     const avatar = document.getElementById('register-avatar').value;
-    const response = await fetch('http://localhost:5001/register', {
+    const response = await fetch(`${window.config.API_BASE_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ async function register() {
 
 async function loadProfile() {
     token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:5001/user', {
+    const response = await fetch(`${window.config.API_BASE_URL}/user`, {
         headers: {
             'x-access-tokens': token
         }
@@ -60,7 +60,7 @@ async function updateProfile() {
     const password = document.getElementById('update-password').value;
     const email = document.getElementById('update-email').value;
     const avatar = document.getElementById('update-avatar').value;
-    const response = await fetch('http://localhost:5001/user', {
+    const response = await fetch(`${window.config.API_BASE_URL}/user`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ async function updateProfile() {
 }
 
 async function loadUserBlogs(userId) {
-    const response = await fetch(`http://localhost:5002/blogs/${userId}`);
+    const response = await fetch(`${window.config.API_BASE_URL}/blogs/${userId}`);
     const blogs = await response.json();
     const myBlogsList = document.getElementById('my-blogs');
     myBlogsList.innerHTML = '';
@@ -94,7 +94,7 @@ async function loadUserBlogs(userId) {
 async function createBlog() {
     const title = document.getElementById('blog-title').value;
     const content = document.getElementById('blog-content').value;
-    const response = await fetch('http://localhost:5002/blogs', {
+    const response = await fetch(`${window.config.API_BASE_URL}/blogs`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ async function createBlog() {
 }
 
 async function deleteBlog(blogId) {
-    const response = await fetch(`http://localhost:5002/blogs/${blogId}`, {
+    const response = await fetch(`${window.config.API_BASE_URL}/blogs/${blogId}`, {
         method: 'DELETE',
         headers: {
             'x-access-tokens': token
@@ -136,7 +136,7 @@ async function updateBlog() {
     const blogId = localStorage.getItem('editBlogId');
     const title = document.getElementById('edit-blog-title').value;
     const content = document.getElementById('edit-blog-content').value;
-    const response = await fetch(`http://localhost:5002/blogs/${blogId}`, {
+    const response = await fetch(`${window.config.API_BASE_URL}/blogs/${blogId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ async function updateBlog() {
 }
 
 async function loadAllBlogs() {
-    const response = await fetch('http://localhost:5002/blogs');
+    const response = await fetch(`${window.config.API_BASE_URL}/blogs`);
     const blogs = await response.json();
     const allBlogsList = document.getElementById('all-blogs');
     allBlogsList.innerHTML = '';
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (currentPage === 'blog_edit.html') {
         const blogId = localStorage.getItem('editBlogId');
         if (blogId) {
-            const response = fetch(`http://localhost:5002/blogs/${blogId}`)
+            fetch(`${window.config.API_BASE_URL}/blogs/${blogId}`)
                 .then(response => response.json())
                 .then(blog => {
                     document.getElementById('edit-blog-title').value = blog.title;

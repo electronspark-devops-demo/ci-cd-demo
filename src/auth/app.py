@@ -18,6 +18,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'yoursecretkey'
 db = SQLAlchemy(app)
 
+# Get domain from environment variable
+backend_domain = os.getenv('BACKEND_DOMAIN', 'localhost')
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
