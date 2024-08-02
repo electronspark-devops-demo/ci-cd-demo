@@ -3,7 +3,7 @@ resources:
   - frontend-deployment.yaml
   - auth-deployment.yaml
   - blog-deployment.yaml
-  - postgres-deployment.yaml
+  - postgres-statefulset.yaml
   - postgres-service.yaml
 images:
   - name: backend
