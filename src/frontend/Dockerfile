@@ -4,7 +4,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy your application files to the Nginx html directory
-COPY . /usr/share/nginx/html
+COPY html /usr/share/nginx/html
 
 # Use envsubst to substitute environment variables in config.template.js
 RUN apk add --no-cache gettext
