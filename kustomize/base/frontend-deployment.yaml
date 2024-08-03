@@ -24,6 +24,11 @@ spec:
             configMapKeyRef:
               name: domain-config
               key: FRONTEND_DOMAIN
+        - name: BACKEND_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: domain-config
+              key: BACKEND_DOMAIN
         livenessProbe:
           httpGet:
             path: /health
