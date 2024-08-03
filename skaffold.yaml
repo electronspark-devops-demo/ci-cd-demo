@@ -20,6 +20,10 @@ build:
     context: src/blog
     docker:
       dockerfile: Dockerfile
+  - image: gateway
+    context: gateway
+    docker:
+      dockerfile: Dockerfile
 deploy:
   kustomize:
     paths:

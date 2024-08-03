@@ -5,7 +5,7 @@ resources:
   - blog-deployment.yaml
   - postgres-statefulset.yaml
   - postgres-service.yaml
-  - ingress.yaml
+  - gateway-deployment.yaml
 images:
   - name: backend
     newName: backend
