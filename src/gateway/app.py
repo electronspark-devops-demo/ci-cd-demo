@@ -5,9 +5,9 @@ import os
 app = Flask(__name__)
 
 # Define the URLs for the backend services
-AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://auth-service:5001')
-BLOG_SERVICE_URL = os.getenv('BLOG_SERVICE_URL', 'http://blog-service:5002')
-BACKEND_SERVICE_URL = os.getenv('BACKEND_SERVICE_URL', 'http://backend-service:5000')
+AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://auth-service')
+BLOG_SERVICE_URL = os.getenv('BLOG_SERVICE_URL', 'http://blog-service')
+BACKEND_SERVICE_URL = os.getenv('BACKEND_SERVICE_URL', 'http://backend-service')
 
 @app.route('/health', methods=['GET'])
 def health_check():

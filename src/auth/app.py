@@ -13,6 +13,11 @@ app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     '/api/auth': app
 })
 
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
+
 # Get database configurations from environment variables
 db_name = os.getenv('POSTGRES_DB')
 db_user = os.getenv('POSTGRES_USER')
@@ -31,10 +36,6 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     avatar = db.Column(db.String(200))
-    
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({'status': 'healthy'})
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -104,4 +105,4 @@ def catch_all(path):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=80)
