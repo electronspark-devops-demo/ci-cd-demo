@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, make_response
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
@@ -7,6 +8,12 @@ import os
 
 app = Flask(__name__)
 
+# Wrap the Flask application with DispatcherMiddleware
+app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
+    '/api/auth': app
+})
+
+# Get database configurations from environment variables
 db_name = os.getenv('POSTGRES_DB')
 db_user = os.getenv('POSTGRES_USER')
 db_password = os.getenv('POSTGRES_PASSWORD')
@@ -17,9 +24,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'yoursecretkey'
 db = SQLAlchemy(app)
-
-# Get domain from environment variable
-backend_domain = os.getenv('BACKEND_DOMAIN', 'localhost')
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
