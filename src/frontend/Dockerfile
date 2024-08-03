@@ -1,13 +1,10 @@
-FROM nginx:alpine
+FROM python:3.9-slim
 
-# Copy your custom nginx.conf to the container
-COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
+WORKDIR /root/app
+COPY requirements.txt /root/app/requirements.txt
+RUN pip install -r requirements.txt
 
-# Copy your application files to the Nginx html directory
-COPY html /usr/share/nginx/html
+COPY html /root/app/html
 
-COPY launch.sh /root/launch.sh
-
-# Use envsubst to substitute environment variables in nginx.conf and config.js
-RUN apk add --no-cache gettext
-CMD ["/bin/sh", "-c", "sh /root/launch.sh"]
+EXPOSE 80
+CMD ["python", "app.py"]
