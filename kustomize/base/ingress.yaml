@@ -8,7 +8,9 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: demo-backend-api
 spec:
   rules:
-  - http:
+  # @TODO: need to edit dynamically
+  - host: "demo-backend.electronspark.xyz"
+    http:
       paths:
       - path: /api/auth/*
         pathType: ImplementationSpecific
@@ -41,7 +43,9 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: web-ip
 spec:
   rules:
-  - http:
+  # @TODO: need to edit dynamically
+  - host: "demo.electronspark.xyz"
+    http:
       paths:
       - path: /*
         pathType: ImplementationSpecific
@@ -50,4 +54,3 @@ spec:
             name: frontend-service
             port:
               number: 80
----
