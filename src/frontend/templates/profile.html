@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <h1>Profile</h1>
+    <p>ID: <span id="user-id"></span></p>
+    <p>Username: <span id="user-username"></span></p>
+    <p>Email: <span id="user-email"></span></p>
+    <img id="user-avatar" src="" alt="Avatar">
+    <h2>Your Blogs</h2>
+    <ul id="my-blogs"></ul>
+    <h2>Create Blog</h2>
+    <form action="/api/blogs" method="post">
+        <label for="blog-title">Title</label>
+        <input type="text" id="blog-title" name="title">
+        <br>
+        <label for="blog-content">Content</label>
+        <textarea id="blog-content" name="content"></textarea>
+        <br>
+        <button type="submit">Create</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <h1>Account Settings</h1>
+    <form action="/api/user" method="post">
+        <label for="update-username">Username</label>
+        <input type="text" id="update-username" name="username">
+        <br>
+        <label for="update-password">Password</label>
+        <input type="password" id="update-password" name="password">
+        <br>
+        <label for="update-email">Email</label>
+        <input type="email" id="update-email" name="email">
+        <br>
+        <label for="update-avatar">Avatar URL</label>
+        <input type="text" id="update-avatar" name="avatar">
+        <br>
+        <button type="submit">Update</button>
+    </form>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
