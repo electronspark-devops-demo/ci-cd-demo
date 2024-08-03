@@ -113,6 +113,10 @@ def edit_blog(blog_id):
     else:
         flash('Update failed', 'danger')
         return redirect(url_for('profile'))
+    
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
