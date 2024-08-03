@@ -44,8 +44,7 @@ def backend_proxy(path):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    app.logger.warning(f"Invalid path accessed: /{path}")
-    return jsonify({'error': 'Invalid path'}), 404
+    return jsonify({'error': 'Invalid path', 'svc': __name__}), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
