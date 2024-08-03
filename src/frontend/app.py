@@ -15,8 +15,19 @@ API_URL_PREFIX = "http://{0}/api".format(BACKEND_DOMAIN)
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=['POST', "GET"])
 def login():
+    if request.method == 'POST':
+        data = request.form
+        response = requests.post(API_URL_PREFIX + '/auth/login', json=data)
+        if response.status_code == 200:
+            token = response.json().get('token')
+            flash('Login successful', 'success')
+            return redirect(url_for('profile'))
+        else:
+            flash('Login failed', 'danger')
+            return redirect(url_for('login'))
+    
     return render_template('login.html')
 
 @app.route('/register')

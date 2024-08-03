@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
