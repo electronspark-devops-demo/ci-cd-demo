@@ -42,7 +42,7 @@ class User(db.Model):
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
-    hashed_password = generate_password_hash(data['password'], method='sha256')
+    hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
     new_user = User(username=data['username'], password=hashed_password, email=data['email'], avatar=data['avatar'])
     db.session.add(new_user)
     db.session.commit()
@@ -90,7 +90,7 @@ def update_user():
 
     data = request.json
     if 'password' in data:
-        current_user.password = generate_password_hash(data['password'], method='sha256')
+        current_user.password = generate_password_hash(data['password'], method='pbkdf2:sha256')
     if 'email' in data:
         current_user.email = data['email']
     if 'avatar' in data:
