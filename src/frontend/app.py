@@ -7,6 +7,9 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = 'your_secret_key'
 
+BACKEND_DOMAIN = os.getenv("BACKEND_DOMAIN", "localhost")
+API_URL_PREFIX = "http://{0}/api".format(BACKEND_DOMAIN)
+
 # Routes for rendering HTML templates
 @app.route('/')
 def index():
@@ -44,7 +47,7 @@ def page_not_found(e):
 @app.route('/api/auth/login', methods=['POST'])
 def api_login():
     data = request.form
-    response = requests.post('http://your-backend-domain/api/auth/login', json=data)
+    response = requests.post(API_URL_PREFIX + '/auth/login', json=data)
     if response.status_code == 200:
         token = response.json().get('token')
         flash('Login successful', 'success')
@@ -56,7 +59,7 @@ def api_login():
 @app.route('/api/auth/register', methods=['POST'])
 def api_register():
     data = request.form
-    response = requests.post('http://your-backend-domain/api/auth/register', json=data)
+    response = requests.post(API_URL_PREFIX + '/auth/register', json=data)
     if response.status_code == 200:
         flash('Registered successfully, please login', 'success')
         return redirect(url_for('login'))
@@ -69,7 +72,7 @@ def update_user():
     token = request.headers.get('x-access-tokens')
     data = request.form
     headers = {'x-access-tokens': token}
-    response = requests.put('http://your-backend-domain/api/user', json=data, headers=headers)
+    response = requests.put(API_URL_PREFIX + '/user/user', json=data, headers=headers)
     if response.status_code == 200:
         flash('User updated', 'success')
         return redirect(url_for('profile'))
@@ -82,7 +85,7 @@ def create_blog():
     token = request.headers.get('x-access-tokens')
     data = request.form
     headers = {'x-access-tokens': token}
-    response = requests.post('http://your-backend-domain/api/blogs', json=data, headers=headers)
+    response = requests.post(API_URL_PREFIX + '/blog/blogs', json=data, headers=headers)
     if response.status_code == 200:
         flash('Blog created', 'success')
         return redirect(url_for('profile'))
@@ -94,7 +97,7 @@ def create_blog():
 def delete_blog(blog_id):
     token = request.headers.get('x-access-tokens')
     headers = {'x-access-tokens': token}
-    response = requests.delete(f'http://your-backend-domain/api/blogs/{blog_id}', headers=headers)
+    response = requests.delete(API_URL_PREFIX + f'/blog/blogs/{blog_id}', headers=headers)
     if response.status_code == 200:
         flash('Blog deleted', 'success')
     else:
@@ -106,7 +109,7 @@ def edit_blog(blog_id):
     token = request.headers.get('x-access-tokens')
     data = request.form
     headers = {'x-access-tokens': token}
-    response = requests.put(f'http://your-backend-domain/api/blogs/{blog_id}', json=data, headers=headers)
+    response = requests.put(API_URL_PREFIX + f'blog/blogs/{blog_id}', json=data, headers=headers)
     if response.status_code == 200:
         flash('Blog updated', 'success')
         return redirect(url_for('profile'))
