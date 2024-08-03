@@ -3,6 +3,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: backend-ingress
+  # @TODO: need to edit dynamically
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: demo-backend-api
 spec:
   rules:
   - http:
@@ -33,6 +36,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: frontend-ingress
+  # @TODO: need to edit dynamically
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: web-ip
 spec:
   rules:
   - http:
