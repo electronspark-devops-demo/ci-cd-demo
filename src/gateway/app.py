@@ -5,9 +5,9 @@ import os
 app = Flask(__name__)
 
 # Define the URLs for the backend services
-AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://auth-service:5002')
-BLOG_SERVICE_URL = os.getenv('BLOG_SERVICE_URL', 'http://blog-service:5003')
-BACKEND_SERVICE_URL = os.getenv('BACKEND_SERVICE_URL', 'http://backend-service:5001')
+AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://auth-service:5001')
+BLOG_SERVICE_URL = os.getenv('BLOG_SERVICE_URL', 'http://blog-service:5002')
+BACKEND_SERVICE_URL = os.getenv('BACKEND_SERVICE_URL', 'http://backend-service:5000')
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -48,4 +48,4 @@ def catch_all(path):
     return jsonify({'error': 'Invalid path'}), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80)
