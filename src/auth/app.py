@@ -8,7 +8,7 @@ import datetime
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Wrap the Flask application with DispatcherMiddleware
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
