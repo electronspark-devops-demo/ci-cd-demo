@@ -55,7 +55,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: auth-service
+            name: frontend-service
             port:
               number: 80
 ---
