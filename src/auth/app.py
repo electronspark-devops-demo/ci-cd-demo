@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, make_response
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,8 +8,7 @@ import datetime
 import os
 
 app = Flask(__name__)
-# CORS(app, resources={r"/*": {"origins": "*"}})
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Wrap the Flask application with DispatcherMiddleware
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
@@ -41,7 +40,6 @@ class User(db.Model):
     avatar = db.Column(db.String(200))
 
 @app.route('/register', methods=['POST'])
-@cross_origin()
 def register():
     data = request.json
     hashed_password = generate_password_hash(data['password'], method='sha256')
@@ -51,7 +49,6 @@ def register():
     return jsonify({'message': 'registered successfully'})
 
 @app.route('/login', methods=['POST'])
-@cross_origin()
 def login():
     data = request.json
     user = User.query.filter_by(username=data['username']).first()
@@ -62,7 +59,6 @@ def login():
     return jsonify({'token': token})
 
 @app.route('/user', methods=['GET'])
-@cross_origin()
 def get_user():
     token = request.headers['x-access-tokens']
     if not token:
@@ -82,7 +78,6 @@ def get_user():
     return jsonify(user_data)
 
 @app.route('/user', methods=['PUT'])
-@cross_origin()
 def update_user():
     token = request.headers['x-access-tokens']
     if not token:
@@ -105,7 +100,6 @@ def update_user():
     return jsonify({'message': 'user updated'})
 
 @app.route('/', defaults={'path': ''})
-@cross_origin()
 @app.route('/<path:path>')
 def catch_all(path):
     return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'auth'}), 404

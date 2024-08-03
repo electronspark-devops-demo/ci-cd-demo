@@ -6,7 +6,7 @@ import datetime
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 db_name = os.getenv('POSTGRES_DB')
 db_user = os.getenv('POSTGRES_USER')
