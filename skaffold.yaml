@@ -21,7 +21,6 @@ build:
     docker:
       dockerfile: Dockerfile
   - image: gateway
-    context: gateway
     context: src/gateway
     docker:
       dockerfile: Dockerfile
