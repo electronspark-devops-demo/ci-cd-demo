@@ -23,6 +23,10 @@ class Blog(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
 
 @app.route('/blogs', methods=['GET'])
 def get_blogs():
@@ -102,7 +106,7 @@ def update_blog(blog_id):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    return jsonify({'error': 'Invalid path', 'svc': __name__}), 404
+    return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'blog'}), 404
 
 if __name__ == '__main__':
     with app.app_context():

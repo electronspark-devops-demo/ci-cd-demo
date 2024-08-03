@@ -17,6 +17,10 @@ db = SQLAlchemy(app)
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+    
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
 
 @app.route('/items', methods=['GET'])
 def get_items():
@@ -34,7 +38,7 @@ def add_item():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    return jsonify({'error': 'Invalid path', 'svc': __name__}), 404
+    return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'backend'}), 404
 
 if __name__ == '__main__':
     with app.app_context():

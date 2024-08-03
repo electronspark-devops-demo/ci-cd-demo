@@ -31,6 +31,10 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     avatar = db.Column(db.String(200))
+    
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -95,7 +99,7 @@ def update_user():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    return jsonify({'error': 'Invalid path', 'svc': __name__}), 404
+    return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'auth'}), 404
 
 if __name__ == '__main__':
     with app.app_context():
