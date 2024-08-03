@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify, make_response
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import jwt
 import datetime
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 db_name = os.getenv('POSTGRES_DB')
 db_user = os.getenv('POSTGRES_USER')

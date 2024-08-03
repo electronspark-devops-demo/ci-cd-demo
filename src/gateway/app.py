@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import requests
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 # Define the URLs for the backend services
 AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://auth-service')

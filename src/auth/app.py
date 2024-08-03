@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, make_response
+from flask_cors import CORS
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,6 +8,7 @@ import datetime
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 # Wrap the Flask application with DispatcherMiddleware
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {

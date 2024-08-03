@@ -1,7 +1,9 @@
 from flask import Flask, send_from_directory, jsonify
+from flask_cors import CORS
 import os
 
 app = Flask(__name__, static_folder='/root/app/html')
+CORS(app)
 
 @app.route('/health', methods=['GET'])
 def health_check():
