@@ -6,15 +6,18 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <h1>Edit Blog</h1>
-    <form action="/api/blogs/{{ blog_id }}/edit" method="post">
-        <label for="edit-blog-title">Title</label>
-        <input type="text" id="edit-blog-title" name="title">
-        <br>
-        <label for="edit-blog-content">Content</label>
-        <textarea id="edit-blog-content" name="content"></textarea>
-        <br>
-        <button type="submit">Update</button>
-    </form>
+    <div class="container">
+        <h1>Edit Blog</h1>
+        <form action="/api/blogs/{{ blog_id }}/edit" method="post">
+            <label for="edit-blog-title">Title</label>
+            <input type="text" id="edit-blog-title" name="title" required>
+            
+            <label for="edit-blog-content">Content</label>
+            <textarea id="edit-blog-content" name="content" required></textarea>
+            
+            <button type="submit">Update</button>
+        </form>
+    </div>
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
