@@ -92,6 +92,12 @@ def update_user():
     
     return jsonify({'message': 'user updated'})
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    app.logger.warning(f"Invalid path accessed: /{path}")
+    return jsonify({'error': 'Invalid path'}), 404
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

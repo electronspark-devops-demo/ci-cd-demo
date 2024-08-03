@@ -31,6 +31,12 @@ def add_item():
     db.session.commit()
     return jsonify({'id': new_item.id, 'name': new_item.name})
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    app.logger.warning(f"Invalid path accessed: /{path}")
+    return jsonify({'error': 'Invalid path'}), 404
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
