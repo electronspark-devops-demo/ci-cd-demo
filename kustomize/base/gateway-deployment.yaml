@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: gateway-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: gateway
@@ -17,7 +17,7 @@ spec:
       - name: gateway
         image: gateway
         ports:
-        - containerPort: 5000
+        - containerPort: 80
         env:
         - name: AUTH_SERVICE_URL
           value: "http://auth-service:5002"
@@ -28,13 +28,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 5000
+            port: 80
           initialDelaySeconds: 3
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /health
-            port: 5000
+            port: 80
           initialDelaySeconds: 3
           periodSeconds: 10
 ---
