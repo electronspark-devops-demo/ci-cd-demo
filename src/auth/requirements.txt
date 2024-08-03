@@ -4,3 +4,4 @@ Werkzeug
 pyjwt
 psycopg2-binary
 pytest
+Flask-Cors

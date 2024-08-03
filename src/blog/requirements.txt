@@ -2,4 +2,4 @@ Flask
 Flask-SQLAlchemy
 pyjwt
 psycopg2-binary
-Flask-CORS
+Flask-Cors
