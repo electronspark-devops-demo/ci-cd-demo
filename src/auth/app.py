@@ -107,7 +107,7 @@ def catch_all(path):
     return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'auth'}), 404
 
 # register a flask CLI command to initialize database
-@app.cli.command()  # 注册为命令，可以传入 name 参数来自定义命令
+@app.cli.command()
 @click.option('--drop', is_flag=True, help='Create after drop.')
 def initdb(drop):
     """Initialize the database."""
