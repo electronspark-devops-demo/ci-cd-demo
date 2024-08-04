@@ -113,7 +113,8 @@ def edit_blog(blog_id):
         return redirect(url_for('profile'))
     else:
         flash('Update failed', 'danger')
-        return redirect(url_for('profile'))
+        return redirect(url_for('profile'),
+                        msg="login error")
     
 @app.route('/health', methods=['GET'])
 def health_check():
