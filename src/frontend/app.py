@@ -28,7 +28,7 @@ def login():
         else:
             errMsg = 'Login failed'
     
-    return render_template('login.html', error=errMsg, test="test string")
+    return render_template('login.html', error=errMsg)
 
 @app.route('/register', methods=['POST', "GET"])
 def register():

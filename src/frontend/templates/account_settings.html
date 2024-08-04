@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Account Settings</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Account Settings{% endblock %}
+{% block content %}
     <div class="container">
         <h1>Account Settings</h1>
         <form action="/api/user" method="post">
@@ -23,7 +18,5 @@
             
             <button type="submit">Update</button>
         </form>
-    </div>
-    <script src="/static/js/script.js"></script>
-</body>
-</html>
+    <div>
+{% endblock %}
