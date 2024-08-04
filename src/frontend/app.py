@@ -30,8 +30,18 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['POST', "GET"])
 def register():
+    if request.method == 'POST':
+        data = request.form
+        response = requests.post(API_URL_PREFIX + '/auth/register', json=data)
+        if response.status_code == 200:
+            flash('Registered successfully, please login', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Registration failed', 'danger')
+            return redirect(url_for('register'))
+    
     return render_template('register.html')
 
 @app.route('/profile')
@@ -55,29 +65,6 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 # Routes for handling form submissions and API calls
-@app.route('/api/auth/login', methods=['POST'])
-def api_login():
-    data = request.form
-    response = requests.post(API_URL_PREFIX + '/auth/login', json=data)
-    if response.status_code == 200:
-        token = response.json().get('token')
-        flash('Login successful', 'success')
-        return redirect(url_for('profile'))
-    else:
-        flash('Login failed', 'danger')
-        return redirect(url_for('login'))
-
-@app.route('/api/auth/register', methods=['POST'])
-def api_register():
-    data = request.form
-    response = requests.post(API_URL_PREFIX + '/auth/register', json=data)
-    if response.status_code == 200:
-        flash('Registered successfully, please login', 'success')
-        return redirect(url_for('login'))
-    else:
-        flash('Registration failed', 'danger')
-        return redirect(url_for('register'))
-
 @app.route('/api/user', methods=['POST'])
 def update_user():
     token = request.headers.get('x-access-tokens')
