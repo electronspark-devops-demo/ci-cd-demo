@@ -17,7 +17,7 @@ def index():
 
 @app.route('/login', methods=['POST', "GET"])
 def login():
-    errMsg = None
+    errMsg = ""
     if request.method == 'POST':
         data = request.form
         response = requests.post(API_URL_PREFIX + '/auth/login', json=data)
