@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
     <div class="container">
         <h1>Login</h1>
         <form action="/login" method="post" id="login-form">
@@ -22,7 +17,4 @@
             <label><strong>Error</strong>: {{ error }}</label>
         {% endif %}
         <p>test: {{ test }}</p>
-    </div>
-    <script src="/static/js/script.js"></script>
-</body>
-</html>
+{% endblock %}
