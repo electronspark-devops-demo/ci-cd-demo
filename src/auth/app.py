@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
+import click
 import datetime
 import os
 
@@ -105,8 +106,16 @@ def update_user():
 def catch_all(path):
     return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'auth'}), 404
 
+# register a flask CLI command to initialize database
+@app.cli.command()  # 注册为命令，可以传入 name 参数来自定义命令
+@click.option('--drop', is_flag=True, help='Create after drop.')
+def initdb(drop):
+    """Initialize the database."""
+    if drop:  # is dropping needed
+        db.drop_all()
+    db.create_all()
+    click.echo('Initialized database.')
+
 if __name__ == '__main__':
     app.debug = True
-    with app.app_context():
-        db.create_all()
     app.run(host='0.0.0.0', port=80)
