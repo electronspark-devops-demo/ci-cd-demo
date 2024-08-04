@@ -4,10 +4,6 @@ metadata:
   name: k8s-microservice-demo
 build:
   artifacts:
-  - image: backend
-    context: src/backend
-    docker:
-      dockerfile: Dockerfile
   - image: frontend
     context: src/frontend
     docker:
@@ -29,7 +25,6 @@ profiles:
   - name: staging
     build:
       artifacts:
-      - image: backend
       - image: frontend
       - image: auth
       - image: blog
@@ -40,7 +35,6 @@ profiles:
   - name: production
     build:
       artifacts:
-      - image: backend
       - image: frontend
       - image: auth
       - image: blog

@@ -1,5 +1,4 @@
 resources:
-  - backend-deployment.yaml
   - frontend-deployment.yaml
   - auth-deployment.yaml
   - blog-deployment.yaml
@@ -7,8 +6,6 @@ resources:
   - postgres-service.yaml
   - ingress.yaml
 images:
-  - name: backend
-    newName: backend
   - name: frontend
     newName: frontend
   - name: auth
