@@ -14,7 +14,9 @@
             <label>don't have an account? <a href="/register">register</a></label>
         </form>
         {% if error %}
-            <label><strong>Error</strong>: {{ error }}</label>
+            <p><strong>Error</strong>: {{ error }}</p>
+        {% else %}
+            <p><strong>Debug</strong>: {{ error }}</p>
         {% endif %}
         <p>test: {{ test }}</p>
 {% endblock %}
