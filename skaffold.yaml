@@ -11,12 +11,6 @@ requires:
     path: src/auth/skaffold.yaml
 deploy:
   kubectl: {}
-  tolerateFailuresUntilDeadline: true
-# deploy:
-#   kustomize:
-#     paths:
-#       - kustomize/base
-
 profiles:
   - name: staging
     manifests:
