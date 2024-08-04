@@ -123,7 +123,7 @@ def health_check():
 def database_initialize():
     response = requests.post(API_URL_PREFIX + '/auth/init_db')
     if response.status_code == 200:
-        jsonify({'status': 'created'}), 200
+        return jsonify({'status': 'created'}), 200
     return jsonify({'status': 'error'}), response.status_code
 
 if __name__ == '__main__':
