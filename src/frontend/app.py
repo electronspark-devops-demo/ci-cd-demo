@@ -32,6 +32,7 @@ def login():
 
 @app.route('/register', methods=['POST', "GET"])
 def register():
+    errMsg = None
     if request.method == 'POST':
         data = request.form
         response = requests.post(API_URL_PREFIX + '/auth/register', json=data)
@@ -39,10 +40,9 @@ def register():
             flash('Registered successfully, please login', 'success')
             return redirect(url_for('login'))
         else:
-            flash('Registration failed', 'danger')
-            return redirect(url_for('register'))
+            errMsg = 'Login failed'
     
-    return render_template('register.html')
+    return render_template('register.html', error=errMsg)
 
 @app.route('/profile')
 def profile():
