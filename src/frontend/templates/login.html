@@ -17,6 +17,9 @@
             
             <button type="submit">Login</button>
         </form>
+        {% if errorMsg %}
+            <p><strong>Error</strong>: {{ errorMsg }}</p>
+        {% endif %}
     </div>
     <script src="/static/js/script.js"></script>
 </body>

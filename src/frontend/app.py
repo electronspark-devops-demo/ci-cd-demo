@@ -17,6 +17,7 @@ def index():
 
 @app.route('/login', methods=['POST', "GET"])
 def login():
+    errMsg = None
     if request.method == 'POST':
         data = request.form
         response = requests.post(API_URL_PREFIX + '/auth/login', json=data)
@@ -26,9 +27,9 @@ def login():
             return redirect(url_for('profile'))
         else:
             flash('Login failed', 'danger')
-            return redirect(url_for('login')), response.status_code
+            errMsg = 'Login failed'
     
-    return render_template('login.html')
+    return render_template('login.html', errMsg=errMsg)
 
 @app.route('/register', methods=['POST', "GET"])
 def register():
@@ -113,8 +114,7 @@ def edit_blog(blog_id):
         return redirect(url_for('profile'))
     else:
         flash('Update failed', 'danger')
-        return redirect(url_for('profile'),
-                        msg="login error")
+        return redirect(url_for('profile'))
     
 @app.route('/health', methods=['GET'])
 def health_check():
