@@ -18,8 +18,8 @@
             <button type="submit">Login</button>
             <label>don't have an account? <a href="/register">register</a></label>
         </form>
-        {% if errorMsg %}
-            <label><strong>Error</strong>: {{ errorMsg }}</label>
+        {% if error %}
+            <label><strong>Error</strong>: {{ error }}</label>
         {% endif %}
         <p>test: {{ test }}</p>
     </div>
