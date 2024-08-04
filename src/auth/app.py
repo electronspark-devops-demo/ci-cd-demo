@@ -54,10 +54,10 @@ def login():
     data = request.json
     user = User.query.filter_by(username=data['username']).first()
     if not user or not check_password_hash(user.password, data['password']):
-        return make_response('Login failed!', 401)
+        return jsonify({'status': 'failed'}), 401
     
     token = jwt.encode({'user_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)}, app.config['SECRET_KEY'])
-    return jsonify({'token': token})
+    return jsonify({'status': 'success', 'token': token}), 200
 
 @app.route('/user', methods=['GET'])
 def get_user():
