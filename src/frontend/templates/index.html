@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Microservice Demo</title>
-</head>
-<body>
-    <h1>Items</h1>
-    <ul id="items"></ul>
-    <input type="text" id="item-name" placeholder="Add new item">
-    <button onclick="addItem()">Add Item</button>
-    <script src="script.js"></script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Demo Blog Website{% endblock %}
+{% block content %}
+    <div class="container">
+        <label><a href="/login">login</a></label>
+        <label><a href="/register">register</a></label>
+    <div>
+{% endblock %}
