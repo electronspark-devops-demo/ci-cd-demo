@@ -10,28 +10,21 @@ requires:
   - configs: [build_auth]
     path: src/auth/skaffold.yaml
 deploy:
-  kustomize:
-    paths:
-      - kustomize/base
+  kubectl: {}
+  tolerateFailuresUntilDeadline: true
+# deploy:
+#   kustomize:
+#     paths:
+#       - kustomize/base
 
 profiles:
   - name: staging
-    build:
-      artifacts:
-      - image: frontend
-      - image: auth
-      - image: blog
-    deploy:
+    manifests:
       kustomize:
         paths:
           - kustomize/staging
   - name: production
-    build:
-      artifacts:
-      - image: frontend
-      - image: auth
-      - image: blog
-    deploy:
+    manifests:
       kustomize:
         paths:
           - kustomize/production
