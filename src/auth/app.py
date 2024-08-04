@@ -43,10 +43,6 @@ class User(db.Model):
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
-    if User.query.filter_by(data['username']).first() is not None:
-        return make_response('username exists', 401)
-    if User.query.filter_by(email = data['email']).first() is not None:
-        return jsonify({'message': 'email has been used'}), 400
     hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
     new_user = User(username=data['username'], password=hashed_password, email=data['email'], avatar=data['avatar'])
     db.session.add(new_user)
