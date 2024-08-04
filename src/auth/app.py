@@ -106,7 +106,7 @@ def catch_all(path):
     return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'auth'}), 404
 
 # register a url to initialize database
-@app.route('/init_db', methods=['PUT'])
+@app.route('/init_db', methods=['POST', 'PUT'])
 def initdb():
     """Initialize the database."""
     db.drop_all()
