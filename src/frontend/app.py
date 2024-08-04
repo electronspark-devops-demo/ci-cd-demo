@@ -29,7 +29,7 @@ def login():
             flash('Login failed', 'danger')
             errMsg = 'Login failed'
     
-    return render_template('login.html', errMsg=errMsg)
+    return render_template('login.html', errMsg=errMsg, test="test string")
 
 @app.route('/register', methods=['POST', "GET"])
 def register():

@@ -19,8 +19,9 @@
             <label>don't have an account? <a href="/register">register</a></label>
         </form>
         {% if errorMsg %}
-            <p><strong>Error</strong>: {{ errorMsg }}</p>
+            <label><strong>Error</strong>: {{ errorMsg }}</label>
         {% endif %}
+        <p>test: {{ test }}</p>
     </div>
     <script src="/static/js/script.js"></script>
 </body>
