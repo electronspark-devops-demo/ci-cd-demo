@@ -1,4 +1,4 @@
-apiVersion: skaffold/v4beta11
+apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: k8s-microservice-demo
