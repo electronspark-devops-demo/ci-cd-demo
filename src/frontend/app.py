@@ -119,5 +119,12 @@ def edit_blog(blog_id):
 def health_check():
     return jsonify({'status': 'healthy'})
 
+@app.route('/init_db', methods=['GET'])
+def database_initialize():
+    response = requests.post(API_URL_PREFIX + '/auth/init_db')
+    if response.status_code == 200:
+        jsonify({'status': 'created'}), 200
+    return jsonify({'status': 'error'}), response.status_code
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

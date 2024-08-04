@@ -1,6 +1,7 @@
 Flask
 flask-login
 Flask-SQLAlchemy
+sqlalchemy-utils
 Werkzeug
 pyjwt
 psycopg2-binary
