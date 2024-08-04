@@ -1,0 +1,10 @@
+apiVersion: skaffold/v2beta27
+kind: Config
+metadata:
+  name: build_frontend
+build:
+  artifacts:
+  - image: frontend
+    context: .
+    docker:
+      dockerfile: Dockerfile

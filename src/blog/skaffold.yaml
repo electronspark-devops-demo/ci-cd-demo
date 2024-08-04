@@ -1,0 +1,10 @@
+apiVersion: skaffold/v2beta27
+kind: Config
+metadata:
+  name: build_blog
+build:
+  artifacts:
+  - image: blog
+    context: .
+    docker:
+      dockerfile: Dockerfile

@@ -2,20 +2,13 @@ apiVersion: skaffold/v2beta27
 kind: Config
 metadata:
   name: k8s-microservice-demo
-build:
-  artifacts:
-  - image: frontend
-    context: src/frontend
-    docker:
-      dockerfile: Dockerfile
-  - image: auth
-    context: src/auth
-    docker:
-      dockerfile: Dockerfile
-  - image: blog
-    context: src/blog
-    docker:
-      dockerfile: Dockerfile
+requires:
+  - configs: [build_frontend]
+    path: src/frontend/skaffold.yaml
+  - configs: [build_blog]
+    path: src/blog/skaffold.yaml
+  - configs: [build_auth]
+    path: src/auth/skaffold.yaml
 deploy:
   kustomize:
     paths:
