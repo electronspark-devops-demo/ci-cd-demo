@@ -26,7 +26,7 @@ def login():
             return redirect(url_for('profile'))
         else:
             flash('Login failed', 'danger')
-            return redirect(url_for('login'))
+            return redirect(url_for('login')), response.status_code
     
     return render_template('login.html')
 
