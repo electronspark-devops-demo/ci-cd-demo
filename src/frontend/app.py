@@ -17,7 +17,7 @@ def index():
 
 @app.route('/login', methods=['POST', "GET"])
 def login():
-    errMsg = ""
+    errMsg = None
     if request.method == 'POST':
         data = request.form
         response = requests.post(API_URL_PREFIX + '/auth/login', json=data)
@@ -29,7 +29,7 @@ def login():
             flash('Login failed', 'danger')
             errMsg = 'Login failed'
     
-    return render_template('login.html', err=err, test="test string")
+    return render_template('login.html', err=errMsg, test="test string")
 
 @app.route('/register', methods=['POST', "GET"])
 def register():
