@@ -70,7 +70,7 @@ def update_user():
     token = request.headers.get('x-access-tokens')
     data = request.form
     headers = {'x-access-tokens': token}
-    response = requests.put(API_URL_PREFIX + '/user/user', json=data, headers=headers)
+    response = requests.put(f'{API_URL_PREFIX}/user/user', json=data, headers=headers)
     if response.status_code == 200:
         flash('User updated', 'success')
         return redirect(url_for('profile'))
@@ -83,7 +83,7 @@ def create_blog():
     token = request.headers.get('x-access-tokens')
     data = request.form
     headers = {'x-access-tokens': token}
-    response = requests.post(API_URL_PREFIX + '/blog/blogs', json=data, headers=headers)
+    response = requests.post(f'{API_URL_PREFIX}/blog/blogs', json=data, headers=headers)
     if response.status_code == 200:
         flash('Blog created', 'success')
         return redirect(url_for('profile'))
@@ -95,7 +95,7 @@ def create_blog():
 def delete_blog(blog_id):
     token = request.headers.get('x-access-tokens')
     headers = {'x-access-tokens': token}
-    response = requests.delete(API_URL_PREFIX + f'/blog/blogs/{blog_id}', headers=headers)
+    response = requests.delete(f'{API_URL_PREFIX}/blog/blogs/{blog_id}', headers=headers)
     if response.status_code == 200:
         flash('Blog deleted', 'success')
     else:
@@ -107,7 +107,7 @@ def edit_blog(blog_id):
     token = request.headers.get('x-access-tokens')
     data = request.form
     headers = {'x-access-tokens': token}
-    response = requests.put(API_URL_PREFIX + f'blog/blogs/{blog_id}', json=data, headers=headers)
+    response = requests.put(f'{API_URL_PREFIX}/blogs/{blog_id}', json=data, headers=headers)
     if response.status_code == 200:
         flash('Blog updated', 'success')
         return redirect(url_for('profile'))
@@ -121,7 +121,7 @@ def health_check():
 
 @app.route('/init_db', methods=['GET'])
 def database_initialize():
-    response = requests.post(API_URL_PREFIX + '/auth/init_db')
+    response = requests.post(f'{API_URL_PREFIX}/auth/init_db')
     if response.status_code == 200:
         return jsonify({'status': 'created'}), 200
     return jsonify({'status': 'error'}), response.status_code
