@@ -67,13 +67,17 @@ gsutil versioning set on gs://$STAGING_BUCKET_NAME
 ```
 
 ```bash
-gcloud container clusters create-auto hello-cloudbuild \
-    --region $CLUSTER_REGION
+gsutil cp /dev/null gs://$STORAGE_BUCKET_NAME/cache
+```
+
+```bash
+gcloud container clusters create-auto $STAGING_CLUSTER_NAME --region $CLUSTER_REGION
+gcloud container clusters create-auto $PRODUCTION_CLUSTER_NAME --region $CLUSTER_REGION
 ```
 
 # 获取 GKE 集群凭据
 ```bash
-gcloud container clusters get-credentials $STAGING_CLUSTER_NAME --region $CLUSTER_REGION
+gcloud container clusters get-credentials hello-cloudbuild --region $CLUSTER_REGION
 ```
 
 # 使用 Skaffold 进行部署，并指定默认的镜像仓库和域名
@@ -135,5 +139,4 @@ gcloud beta builds triggers create cloud-source-repositories \
 
 ```bash
 gcloud deploy apply --file=deploy.yaml --region=$CLUSTER_REGION --project=$PROJECT_ID
-gcloud deploy apply --file=targets.yaml --region=$CLUSTER_REGION --project=$PROJECT_ID
 ```
