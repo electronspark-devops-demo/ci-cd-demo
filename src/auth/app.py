@@ -21,6 +21,7 @@ db_name = os.getenv('POSTGRES_DB')
 db_user = os.getenv('POSTGRES_USER')
 db_password = os.getenv('POSTGRES_PASSWORD')
 db_host = os.getenv('POSTGRES_HOST', 'localhost')
+
 db_uri = f'postgresql://{db_user}:{db_password}@{db_host}/{db_name}'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
