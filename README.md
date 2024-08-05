@@ -4,12 +4,25 @@
 ```bash
 export PROJECT_ID=$(gcloud config get-value project)
 export CLUSTER_REGION="us-central1"
-export STAGING_CLUSTER_NAME="hello-cloudbuild"
+export CLUSTER_NAME="cicd-demo"
+export DOMAIN="demo.electronspark.xyz"
+
+export STORAGE_BUCKET_NAME="${CLUSTER_NAME}-storage-bucket"
+export BUILD_ARTIFACTS_REGISTRY="${CLUSTER_NAME}-artifacts"
+
+export STAGING_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-staging"
+export PRODUCTION_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-production"
+export STAGING_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-staging"
+export PRODUCTION_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-production"
+export STAGING_CLUSTER_NAME="${CLUSTER_NAME}-staging"
+export PRODUCTION_CLUSTER_NAME="${CLUSTER_NAME}-production"
 export DEFAULT_REPO=gcr.io/$PROJECT_ID
-export FRONTEND_DOMAIN=demo.electronspark.xyz
-export BACKEND_DOMAIN=demo-backend.electronspark.xyz
 ```
 
+
+```bash
+gcloud storage buckets create gs://BUCKET_NAME --location=$CLUSTER_REGION
+```
 
 # 获取 GKE 集群凭据
 ```bash

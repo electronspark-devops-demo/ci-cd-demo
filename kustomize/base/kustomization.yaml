@@ -16,5 +16,4 @@ configMapGenerator:
   - name: domain-config
     # @TODO: need to edit dynamically
     literals:
-      - FRONTEND_DOMAIN=demo.electronspark.xyz
-      - BACKEND_DOMAIN=demo-backend.electronspark.xyz
+      - DOMAIN=demo.electronspark.xyz

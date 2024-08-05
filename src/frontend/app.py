@@ -7,8 +7,8 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = 'your_secret_key'
 
-BACKEND_DOMAIN = os.getenv("BACKEND_DOMAIN", "localhost")
-API_URL_PREFIX = "http://{0}/api".format(BACKEND_DOMAIN)
+DOMAIN = os.getenv("DOMAIN", "localhost")
+API_URL_PREFIX = f"http://{DOMAIN}/api"
 
 # Routes for rendering HTML templates
 @app.route('/')
@@ -65,7 +65,7 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 # Routes for handling form submissions and API calls
-@app.route('/api/user', methods=['POST'])
+@app.route('/api-user', methods=['POST'])
 def update_user():
     token = request.headers.get('x-access-tokens')
     data = request.form
@@ -78,7 +78,7 @@ def update_user():
         flash('Update failed', 'danger')
         return redirect(url_for('account_setting'))
 
-@app.route('/api/blogs', methods=['POST'])
+@app.route('/api-blogs', methods=['POST'])
 def create_blog():
     token = request.headers.get('x-access-tokens')
     data = request.form
@@ -91,7 +91,7 @@ def create_blog():
         flash('Creation failed', 'danger')
         return redirect(url_for('profile'))
 
-@app.route('/api/blogs/<int:blog_id>/delete', methods=['POST'])
+@app.route('/api-blogs/<int:blog_id>/delete', methods=['POST'])
 def delete_blog(blog_id):
     token = request.headers.get('x-access-tokens')
     headers = {'x-access-tokens': token}
@@ -102,7 +102,7 @@ def delete_blog(blog_id):
         flash('Deletion failed', 'danger')
     return redirect(url_for('profile'))
 
-@app.route('/api/blogs/<int:blog_id>/edit', methods=['POST'])
+@app.route('/api-blogs/<int:blog_id>/edit', methods=['POST'])
 def edit_blog(blog_id):
     token = request.headers.get('x-access-tokens')
     data = request.form

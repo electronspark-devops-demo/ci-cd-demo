@@ -19,16 +19,11 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: FRONTEND_DOMAIN
+        - name: DOMAIN
           valueFrom:
             configMapKeyRef:
               name: domain-config
-              key: FRONTEND_DOMAIN
-        - name: BACKEND_DOMAIN
-          valueFrom:
-            configMapKeyRef:
-              name: domain-config
-              key: BACKEND_DOMAIN
+              key: DOMAIN
         livenessProbe:
           httpGet:
             path: /health

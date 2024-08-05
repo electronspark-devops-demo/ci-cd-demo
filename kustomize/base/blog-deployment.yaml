@@ -34,11 +34,11 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_PASSWORD
-        - name: FRONTEND_DOMAIN
+        - name: DOMAIN
           valueFrom:
             configMapKeyRef:
               name: domain-config
-              key: FRONTEND_DOMAIN
+              key: DOMAIN
         - name: POSTGRES_HOST
           value: "postgres-service"
         livenessProbe:
@@ -59,7 +59,7 @@ spec:
             memory: 256Mi
           limits:
             cpu: 500m
-            memory: 512Mi
+            memory: 256Mi
 ---
 apiVersion: v1
 kind: Service
