@@ -1,32 +1,3 @@
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: backend-ingress
-#   # @TODO: need to edit dynamically
-#   annotations:
-#     kubernetes.io/ingress.global-static-ip-name: demo-backend-api
-# spec:
-#   rules:
-#   # @TODO: need to edit dynamically
-#   - host: "demo-backend.electronspark.xyz"
-#     http:
-#       paths:
-#       - path: /api/auth/*
-#         pathType: ImplementationSpecific
-#         backend:
-#           service:
-#             name: auth-service
-#             port:
-#               number: 80
-#       - path: /api/blog/*
-#         pathType: ImplementationSpecific
-#         backend:
-#           service:
-#             name: blog-service
-#             port:
-#               number: 80
-# ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
