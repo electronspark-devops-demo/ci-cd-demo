@@ -3,11 +3,11 @@ kind: Config
 metadata:
   name: k8s-microservice-demo
 requires:
-  - configs: [build_frontend]
+  - configs: [svc_frontend]
     path: src/frontend/skaffold.yaml
-  - configs: [build_blog]
+  - configs: [svc_blog]
     path: src/blog/skaffold.yaml
-  - configs: [build_auth]
+  - configs: [svc_auth]
     path: src/auth/skaffold.yaml
 deploy:
   kubectl: {}

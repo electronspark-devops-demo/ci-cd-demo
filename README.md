@@ -6,22 +6,70 @@ export PROJECT_ID=$(gcloud config get-value project)
 export CLUSTER_REGION="us-central1"
 export CLUSTER_NAME="cicd-demo"
 export DOMAIN="demo.electronspark.xyz"
+# the owner of github repository, either user or organization
+export REPO_OWNER="electronspark-devops-demo"
+# the name of github repository
+export REPO_NAME="ci-cd-demo"
+
+export SERVICE_ACCOUNT_EMAIL="$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")-compute@developer.gserviceaccount.com"
 
 export STORAGE_BUCKET_NAME="${CLUSTER_NAME}-storage-bucket"
+export STAGING_BUCKET_NAME="${CLUSTER_NAME}-staging-bucket"
 export BUILD_ARTIFACTS_REGISTRY="${CLUSTER_NAME}-artifacts"
 
-export STAGING_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-staging"
-export PRODUCTION_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-production"
-export STAGING_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-staging"
-export PRODUCTION_STORAGE_BUCKET_NAME="${STORAGE_BUCKET_NAME}-production"
 export STAGING_CLUSTER_NAME="${CLUSTER_NAME}-staging"
 export PRODUCTION_CLUSTER_NAME="${CLUSTER_NAME}-production"
-export DEFAULT_REPO=gcr.io/$PROJECT_ID
+export DEFAULT_REPO="ci-cd-demo"
+
+export BUILD_PIPELINE_NAME="ci-cd-demo-ci"
+export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
+```
+
+
+
+```bash
+gcloud services enable container.googleapis.com \
+    cloudbuild.googleapis.com \
+    clouddeploy.googleapis.com \
+    sourcerepo.googleapis.com \
+    artifactregistry.googleapis.com \
+    storage.googleapis.com
+```
+
+```bash
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member=serviceAccount:${SERVICE_ACCOUNT_EMAIL} \
+    --role="roles/clouddeploy.jobRunner"
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member=serviceAccount:${SERVICE_ACCOUNT_EMAIL} \
+    --role="roles/container.developer"
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member=serviceAccount:${SERVICE_ACCOUNT_EMAIL} \
+    --role="roles/clouddeploy.jobRunner"
+
+gcloud iam service-accounts add-iam-policy-binding ${SERVICE_ACCOUNT_EMAIL} \
+    --member=serviceAccount:${SERVICE_ACCOUNT_EMAIL} \
+    --role="roles/iam.serviceAccountUser" \
+    --project=$PROJECT_ID
 ```
 
 
 ```bash
-gcloud storage buckets create gs://BUCKET_NAME --location=$CLUSTER_REGION
+gcloud artifacts repositories create $DEFAULT_REPO \
+  --repository-format=docker \
+  --location=$CLUSTER_REGION
+```
+
+```bash
+gcloud storage buckets create gs://$STORAGE_BUCKET_NAME --location=$CLUSTER_REGION
+gsutil versioning set on gs://$STORAGE_BUCKET_NAME
+gcloud storage buckets create gs://$STAGING_BUCKET_NAME --location=$CLUSTER_REGION
+gsutil versioning set on gs://$STAGING_BUCKET_NAME
+```
+
+```bash
+gcloud container clusters create-auto hello-cloudbuild \
+    --region $CLUSTER_REGION
 ```
 
 # 获取 GKE 集群凭据
@@ -31,12 +79,22 @@ gcloud container clusters get-credentials $STAGING_CLUSTER_NAME --region $CLUSTE
 
 # 使用 Skaffold 进行部署，并指定默认的镜像仓库和域名
 ```bash
-skaffold run -f=skaffold.yaml -p staging --default-repo=$DEFAULT_REPO
+skaffold run -f=skaffold.yaml -p staging --default-repo=$DEFAULT_REPO/$PROJECT_ID
+--file-output=/workspace/artifacts.json
+--cache-file=/workspace/$CACHE 
 ```
 
-
-
 使用 gcloud 命令行工具创建 Cloud Build 触发器：
+```bash
+gcloud builds triggers create github --name="cicd-demo-trigger" \
+            --service-account="projects/${PROJECT_ID}/serviceAccounts/${SERVICE_ACCOUNT_EMAIL}" \
+            --repo-owner="${REPO_OWNER}" \
+            --repo-name="${REPO_NAME}" --branch-pattern="^main$" \
+            --build-config="cloudbuild.yaml" \
+            --region=${CLUSTER_REGION} \
+            --substitutions=_REGION=${CLUSTER_REGION},_CLUSTER=hello-cloudbuild,_CACHE_URI=gs://$STORAGE_BUCKET_NAME,_DELIVERY_PIPELINE_NAME=$DELIVERY_PIPELINE_NAME,_SOURCE_STAGING_BUCKET=gs://$STAGING_BUCKET_NAME
+```
+
 
 ```bash
 gcloud beta builds triggers create cloud-source-repositories \

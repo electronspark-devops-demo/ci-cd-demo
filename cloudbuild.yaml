@@ -1,0 +1,35 @@
+steps:
+  - id: download-skaffold-cache
+    name: gcr.io/cloud-builders/gsutil # get skaffold build cache
+    args: ['cp', $_CACHE_URI, '/workspace/cache']
+    timeout: 120s
+
+  - id: 'build-staging-image'
+    name: 'gcr.io/k8s-skaffold/skaffold:v2.13.1'
+    script: |
+        #!/bin/bash
+        set -x
+        skaffold build -f=skaffold.yaml --default-repo=gcr.io/$PROJECT_ID --file-output=/workspace/artifacts.json --cache-file=/workspace/$CACHE 
+        # gcloud container clusters get-credentials --region=$_REGION $_CLUSTER;
+        # skaffold run -f=skaffold.yaml --default-repo=gcr.io/$PROJECT_ID;
+        
+  - name: gcr.io/cloud-builders/gsutil # upload skaffold build cache
+    id: upload-skaffold-cache
+    args: ['cp', '/workspace/cache',  $_CACHE_URI]
+    timeout: 120s
+
+  - name: gcr.io/cloud-builders/gcloud
+    id: trigger-release
+    args: 
+      - "deploy"
+      - "releases"
+      - "create"
+      - "$_DELIVERY_PIPELINE_NAME-$SHORT_SHA"
+      - "--delivery-pipeline=$_DELIVERY_PIPELINE_NAME"
+      - "--build-artifacts=/workspace/artifacts.json"
+      - "--skaffold-file=skaffold.yaml"
+      - "--region=$LOCATION"
+      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

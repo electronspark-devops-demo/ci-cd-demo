@@ -1,7 +1,7 @@
 apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
-  name: build_blog
+  name: svc_blog
 build:
   artifacts:
   - image: blog

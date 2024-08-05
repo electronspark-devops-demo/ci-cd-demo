@@ -1,7 +1,7 @@
 apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
-  name: build_auth
+  name: svc_auth
 build:
   artifacts:
   - image: auth
