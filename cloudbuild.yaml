@@ -9,7 +9,7 @@ steps:
     script: |
         #!/bin/bash
         set -x
-        skaffold build -f=skaffold.yaml --default-repo=$_DEFAULT_REPO/$_PROJECT_ID --file-output=/workspace/artifacts.json --cache-file=/workspace/$CACHE 
+        skaffold build -f=skaffold.yaml --default-repo=$_DEFAULT_REPO/$_PROJECT_ID --file-output=/workspace/artifacts.json --cache-file=/workspace/cache 
         # gcloud container clusters get-credentials --region=$_REGION $_CLUSTER;
         # skaffold run -f=skaffold.yaml --default-repo=$_DEFAULT_REPO/$_PROJECT_ID;
         
