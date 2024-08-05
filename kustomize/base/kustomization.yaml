@@ -1,9 +1,9 @@
 resources:
+  - postgres-statefulset.yaml
+  - postgres-service.yaml
   - frontend-deployment.yaml
   - auth-deployment.yaml
   - blog-deployment.yaml
-  - postgres-statefulset.yaml
-  - postgres-service.yaml
   - ingress.yaml
 images:
   - name: frontend

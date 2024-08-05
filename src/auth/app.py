@@ -16,11 +16,6 @@ app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     '/api/auth': app
 })
 
-# Health check endpoint
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({'status': 'healthy'})
-
 # Get database configurations from environment variables
 db_name = os.getenv('POSTGRES_DB')
 db_user = os.getenv('POSTGRES_USER')
@@ -104,6 +99,11 @@ def update_user():
 @app.route('/<path:path>')
 def catch_all(path):
     return jsonify({'error': 'Invalid path: %s' % path, 'svc': 'auth'}), 404
+
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
 
 # register a url to initialize database
 @app.route('/init_db', methods=['POST', 'PUT'])
