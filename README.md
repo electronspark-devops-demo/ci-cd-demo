@@ -24,7 +24,21 @@ export BUILD_PIPELINE_NAME="ci-cd-demo-trigger"
 export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
 ```
 
+```bash
+echo -n "ci-cd-demo-db-staging" | base64
+```
 
+```bash
+export STAGING_DB_NAME="ci-cd-demo-db-staging"
+export STAGING_DB_USER="postgres"
+export STAGING_DB_PASSWORD="%Tts`zSz9`5[EMp5"
+export STAGING_DB_UNIX_SOCKET="/cloudsql/$PROJECT_ID:$CLUSTER_REGION:$STAGING_DB_NAME"
+
+export STAGING_DB_NAME="ci-cd-demo-db-staging"
+export STAGING_DB_USER="postgres"
+export STAGING_DB_PASSWORD="%Tts`zSz9`5[EMp5"
+export STAGING_DB_UNIX_SOCKET="/cloudsql/$PROJECT_ID:$CLUSTER_REGION:$STAGING_DB_NAME"
+```
 
 ```bash
 gcloud services enable container.googleapis.com \

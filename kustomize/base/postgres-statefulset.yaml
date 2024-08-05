@@ -43,14 +43,3 @@ spec:
       volumes:
       - name: postgres-storage
         emptyDir: {}
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: postgres-secret
-type: Opaque
-data:
-  POSTGRES_DB: cG9zdGdyZXNkYg==
-  POSTGRES_USER: cG9zdGdyZXM=
-  POSTGRES_PASSWORD: cGFzc3dvcmQ=
