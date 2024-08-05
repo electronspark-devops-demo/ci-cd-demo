@@ -100,41 +100,6 @@ gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
             --substitutions=_REGION=${CLUSTER_REGION},_CLUSTER=hello-cloudbuild,_CACHE_URI=gs://$STORAGE_BUCKET_NAME,_DELIVERY_PIPELINE_NAME=$DELIVERY_PIPELINE_NAME,_SOURCE_STAGING_BUCKET=gs://$STAGING_BUCKET_NAME,_DEFAULT_REPO=${CLUSTER_REGION}-docker.pkg.dev/${PROJECT_ID}/${DEFAULT_REPO},_PROJECT_ID=$PROJECT_ID
 ```
 
-
-```bash
-gcloud beta builds triggers create cloud-source-repositories \
-    --name="backend-trigger" \
-    --repo="YOUR_REPO_NAME" \
-    --branch-pattern="^main$" \
-    --build-config="backend/cloudbuild.yaml" \
-    --included-files="backend/**" \
-    --substitutions=_PROJECT_ID=$PROJECT_ID
-
-gcloud beta builds triggers create cloud-source-repositories \
-    --name="frontend-trigger" \
-    --repo="YOUR_REPO_NAME" \
-    --branch-pattern="^main$" \
-    --build-config="frontend/cloudbuild.yaml" \
-    --included-files="frontend/**" \
-    --substitutions=_PROJECT_ID=$PROJECT_ID
-
-gcloud beta builds triggers create cloud-source-repositories \
-    --name="auth-trigger" \
-    --repo="YOUR_REPO_NAME" \
-    --branch-pattern="^main$" \
-    --build-config="auth/cloudbuild.yaml" \
-    --included-files="auth/**" \
-    --substitutions=_PROJECT_ID=$PROJECT_ID
-
-gcloud beta builds triggers create cloud-source-repositories \
-    --name="blog-trigger" \
-    --repo="YOUR_REPO_NAME" \
-    --branch-pattern="^main$" \
-    --build-config="blog/cloudbuild.yaml" \
-    --included-files="blog/**" \
-    --substitutions=_PROJECT_ID=$PROJECT_ID
-```
-
 应用cloud deploy配置：
 
 ```bash

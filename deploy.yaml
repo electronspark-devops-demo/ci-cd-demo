@@ -19,7 +19,8 @@ metadata:
   name: staging
 description: Staging environment
 gke:
-  cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$STAGING_CLUSTER_NAME
+  # cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$STAGING_CLUSTER_NAME
+  cluster: projects/atlantean-wares-426921-j3/locations/us-central1/clusters/cicd-demo-staging
 
 ---
 
@@ -29,4 +30,5 @@ metadata:
   name: production
 description: Production environment
 gke:
-  cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$PRODUCTION_CLUSTER_NAME
+  # cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$PRODUCTION_CLUSTER_NAME
+  cluster: projects/atlantean-wares-426921-j3/locations/us-central1/clusters/cicd-demo-production
