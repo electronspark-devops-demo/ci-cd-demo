@@ -21,7 +21,7 @@ export STAGING_CLUSTER_NAME="${CLUSTER_NAME}-staging"
 export PRODUCTION_CLUSTER_NAME="${CLUSTER_NAME}-production"
 export DEFAULT_REPO="ci-cd-demo"
 
-export BUILD_PIPELINE_NAME="ci-cd-demo-ci"
+export BUILD_PIPELINE_NAME="ci-cd-demo-trigger"
 export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
 ```
 
@@ -81,12 +81,12 @@ gcloud container clusters get-credentials $STAGING_CLUSTER_NAME --region $CLUSTE
 ```bash
 skaffold run -f=skaffold.yaml -p staging --default-repo=$DEFAULT_REPO/$PROJECT_ID
 --file-output=/workspace/artifacts.json
---cache-file=/workspace/$CACHE 
+--cache-file=/workspace/cace
 ```
 
 使用 gcloud 命令行工具创建 Cloud Build 触发器：
 ```bash
-gcloud builds triggers create github --name="cicd-demo-trigger" \
+gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
             --service-account="projects/${PROJECT_ID}/serviceAccounts/${SERVICE_ACCOUNT_EMAIL}" \
             --repo-owner="${REPO_OWNER}" \
             --repo-name="${REPO_NAME}" --branch-pattern="^main$" \

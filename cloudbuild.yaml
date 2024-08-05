@@ -1,8 +1,8 @@
 steps:
-  - id: download-skaffold-cache
-    name: gcr.io/cloud-builders/gsutil # get skaffold build cache
-    args: ['cp', $_CACHE_URI, '/workspace/cache']
-    timeout: 120s
+  # - id: download-skaffold-cache
+  #   name: gcr.io/cloud-builders/gsutil # get skaffold build cache
+  #   args: ['cp', $_CACHE_URI, '/workspace/cache']
+  #   timeout: 120s
 
   - id: 'build-staging-image'
     name: 'gcr.io/k8s-skaffold/skaffold:v2.13.1'
