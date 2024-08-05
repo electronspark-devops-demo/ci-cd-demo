@@ -19,6 +19,7 @@ patchesStrategicMerge:
   - patches/frontend-deployment-patch.yaml
   - patches/auth-deployment-patch.yaml
   - patches/blog-deployment-patch.yaml
+  - patches/prosrgress-secret.yaml
 
 images:
   - name: frontend
