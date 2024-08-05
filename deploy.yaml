@@ -20,7 +20,6 @@ metadata:
 description: Staging environment
 gke:
   cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$STAGING_CLUSTER_NAME
-  location: $CLUSTER_REGION
 
 ---
 
@@ -31,4 +30,3 @@ metadata:
 description: Production environment
 gke:
   cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$PRODUCTION_CLUSTER_NAME
-  location: $CLUSTER_REGION
