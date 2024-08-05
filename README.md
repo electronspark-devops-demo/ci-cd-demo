@@ -92,7 +92,7 @@ gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
             --repo-name="${REPO_NAME}" --branch-pattern="^main$" \
             --build-config="cloudbuild.yaml" \
             --region=${CLUSTER_REGION} \
-            --substitutions=_REGION=${CLUSTER_REGION},_CLUSTER=hello-cloudbuild,_CACHE_URI=gs://$STORAGE_BUCKET_NAME,_DELIVERY_PIPELINE_NAME=$DELIVERY_PIPELINE_NAME,_SOURCE_STAGING_BUCKET=gs://$STAGING_BUCKET_NAME,_DEFAULT_REPO=gs//$DEFAULT_REPO
+            --substitutions=_REGION=${CLUSTER_REGION},_CLUSTER=hello-cloudbuild,_CACHE_URI=gs://$STORAGE_BUCKET_NAME,_DELIVERY_PIPELINE_NAME=$DELIVERY_PIPELINE_NAME,_SOURCE_STAGING_BUCKET=gs://$STAGING_BUCKET_NAME,_DEFAULT_REPO=gs//$DEFAULT_REPO,_PROJECT_ID=$PROJECT_ID
 ```
 
 
