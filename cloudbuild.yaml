@@ -5,11 +5,11 @@ steps:
   #   timeout: 120s
 
   - id: 'build-staging-image'
-    name: 'gcr.io/cloud-builders/gsutil'
+    name: 'gcr.io/k8s-skaffold/skaffold:v2.13.1'
     script: |
         #!/bin/bash
         set -x
-        skaffold build -f=skaffold.yaml --default-repo=$_DEFAULT_REPO --file-output=/workspace/artifacts.json --cache-file=/workspace/cache 
+        skaffold build -f=skaffold.yaml --default-repo=us-central1-docker.pkg.dev/atlantean-wares-426921-j3/ci-cd-demo --file-output=/workspace/artifacts.json --cache-file=/workspace/cache 
         # gcloud container clusters get-credentials --region=$_REGION $_CLUSTER;
         # skaffold run -f=skaffold.yaml --default-repo=$_DEFAULT_REPO;
         
