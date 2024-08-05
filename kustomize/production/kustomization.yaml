@@ -1,6 +1,20 @@
 bases:
   - ../base
 
+patches:
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      name: ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: demo.electronspark.xyz
+      - op: replace
+        path: /metadata/annotations/kubernetes.io~1ingress.global-static-ip-name
+        value: web-ip
+     
 patchesStrategicMerge:
   - patches/frontend-deployment-patch.yaml
   - patches/auth-deployment-patch.yaml
