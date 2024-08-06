@@ -132,5 +132,6 @@ def database_initialize():
         return jsonify({'status': 'created'}), 200
     return jsonify({'status': 'error'}), response.status_code
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
