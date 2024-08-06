@@ -1,9 +1,12 @@
 steps:
   - name: gcr.io/k8s-skaffold/skaffold:v2.13.1
     id: echo default repo url
-    script: |
-        #!/bin/bash
-        echo "ARTIFACT REGISTRY URL: $_REGION-docker.pkg.dev/$_PROJECT_ID/$_DEFAULT_REPO"
+    entrypoint: /bin/sh
+    args:
+    - -c
+    - echo
+    - "ARTIFACT REGISTRY URL: $_REGION-docker.pkg.dev/$_PROJECT_ID/$_DEFAULT_REPO"
+
   - name: 'python:3.12-slim'
     id: Test
     entrypoint: /bin/sh
@@ -18,11 +21,11 @@ steps:
 
   - id: 'build-staging-image'
     name: 'gcr.io/k8s-skaffold/skaffold:v2.13.1'
-    script: |
-        #!/bin/bash
-        set -x
-        skaffold build -f=skaffold.yaml --default-repo=$_REGION-docker.pkg.dev/$_PROJECT_ID/$_DEFAULT_REPO --file-output=/workspace/artifacts.json --cache-file=/workspace/cache 
-        # skaffold build -f=skaffold.yaml --default-repo=us-central1-docker.pkg.dev/atlantean-wares-426921-j3/ci-cd-demo --file-output=/workspace/artifacts.json --cache-file=/workspace/cache
+    args:
+    - skaffold
+    - build
+    - -f=skaffold.yaml
+    - --default-repo=$_REGION-docker.pkg.dev/$_PROJECT_ID/$_DEFAULT_REPO --file-output=/workspace/artifacts.json --cache-file=/workspace/cache 
 
   - name: gcr.io/cloud-builders/gsutil # upload skaffold build cache
     id: upload-skaffold-cache
