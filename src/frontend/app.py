@@ -19,7 +19,7 @@ def get_index_title():
 def index():
     return render_template('index.html', 
                            index_title=get_index_title(), 
-                           index_header="This is a Demo Blog Website")
+                           index_header="Demo Blog Website")
 
 @app.route('/login', methods=['POST', "GET"])
 def login():
