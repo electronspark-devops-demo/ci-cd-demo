@@ -1,6 +1,7 @@
 # ci-cd-demo
 
-# 设置环境变量
+## First set environment variables
+
 ```bash
 export PROJECT_ID=$(gcloud config get-value project)
 export CLUSTER_REGION="us-central1"
@@ -24,16 +25,17 @@ export BUILD_PIPELINE_NAME="ci-cd-demo-trigger"
 export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
 ```
 
-
+## Enable Google Cloud APIs needed
 
 ```bash
 gcloud services enable container.googleapis.com \
     cloudbuild.googleapis.com \
     clouddeploy.googleapis.com \
     sourcerepo.googleapis.com \
-    artifactregistry.googleapis.com \
-    storage.googleapis.com
+    artifactregistry.googleapis.com
 ```
+
+## Make sure the default Compute Engine service account has sufficient permissions, then add the `iam.serviceAccountUser` role, which includes the `actAs` permission for the default service account to deploy to the runtime
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT_ID \
@@ -52,12 +54,15 @@ gcloud iam service-accounts add-iam-policy-binding ${SERVICE_ACCOUNT_EMAIL} \
     --project=$PROJECT_ID
 ```
 
+## Create an artifact registry to store docker images built during CI process
 
 ```bash
 gcloud artifacts repositories create $DEFAULT_REPO \
   --repository-format=docker \
   --location=$CLUSTER_REGION
 ```
+
+## Create Storage Bucket to keep Skaffold cache file
 
 ```bash
 gcloud storage buckets create gs://$STORAGE_BUCKET_NAME --location=$CLUSTER_REGION
@@ -66,30 +71,34 @@ gcloud storage buckets create gs://$STAGING_BUCKET_NAME --location=$CLUSTER_REGI
 gsutil versioning set on gs://$STAGING_BUCKET_NAME
 ```
 
+## Create an empty Skaffold cache file, so it could be downloaded when first time running the CI pipeline
+
 ```bash
 gsutil cp /dev/null gs://$STORAGE_BUCKET_NAME/cache
 ```
+
+## Create two GKE autopilot clusters. One for staging, and one for production.
 
 ```bash
 gcloud container clusters create-auto $STAGING_CLUSTER_NAME --region $CLUSTER_REGION
 gcloud container clusters create-auto $PRODUCTION_CLUSTER_NAME --region $CLUSTER_REGION
 ```
 
-# 获取 GKE 集群凭据
+## Run the following command to update the configuration file of kubectl
 ```bash
 gcloud container clusters get-credentials $STAGING_CLUSTER_NAME --region $CLUSTER_REGION
 ```
 
-# 使用 Skaffold 进行部署，并指定默认的镜像仓库和域名
+## Using Skaffold to build staging images, and to deploy the staging cluster
 ```bash
 skaffold run -f=skaffold.yaml -p staging \
---default-repo=${CLUSTER_REGION}-docker.pkg.dev/${PROJECT_ID}/${DEFAULT_REPO} \
---file-output=/workspace/artifacts.json \
---cache-file=/workspace/cache
+--default-repo=${CLUSTER_REGION}-docker.pkg.dev/${PROJECT_ID}/${DEFAULT_REPO}
 ```
 
+## Create a Cloud Build Trigger that will be triggered each time the main branch of the demo git repository changes.
 
-使用 gcloud 命令行工具创建 Cloud Build 触发器：
+It will use default Compute Engine service account for image building process.
+
 ```bash
 gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
             --service-account="projects/${PROJECT_ID}/serviceAccounts/${SERVICE_ACCOUNT_EMAIL}" \
@@ -100,7 +109,7 @@ gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
             --substitutions=_REGION=${CLUSTER_REGION},_CLUSTER=hello-cloudbuild,_CACHE_URI=gs://$STORAGE_BUCKET_NAME,_DELIVERY_PIPELINE_NAME=$DELIVERY_PIPELINE_NAME,_SOURCE_STAGING_BUCKET=gs://$STAGING_BUCKET_NAME,_DEFAULT_REPO=${CLUSTER_REGION}-docker.pkg.dev/${PROJECT_ID}/${DEFAULT_REPO},_PROJECT_ID=$PROJECT_ID
 ```
 
-应用cloud deploy配置：
+## Configure Cloud Deploy
 
 ```bash
 gcloud deploy apply --file=deploy.yaml --region=$CLUSTER_REGION --project=$PROJECT_ID
