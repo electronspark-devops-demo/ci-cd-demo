@@ -4,6 +4,7 @@
 
 ```bash
 export PROJECT_ID=$(gcloud config get-value project)
+export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
 export CLUSTER_REGION="us-central1"
 export CLUSTER_NAME="cicd-demo"
 export DOMAIN="demo.electronspark.xyz"
@@ -11,18 +12,17 @@ export DOMAIN="demo.electronspark.xyz"
 export REPO_OWNER="electronspark-devops-demo"
 # the name of github repository
 export REPO_NAME="ci-cd-demo"
-
-export SERVICE_ACCOUNT_EMAIL="$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")-compute@developer.gserviceaccount.com"
-
-export STORAGE_BUCKET_NAME="${CLUSTER_NAME}-storage-bucket"
-export STAGING_BUCKET_NAME="${CLUSTER_NAME}-staging-bucket"
-
-export STAGING_CLUSTER_NAME="${CLUSTER_NAME}-staging"
-export PRODUCTION_CLUSTER_NAME="${CLUSTER_NAME}-production"
+# the name of artifact registry
 export DEFAULT_REPO="ci-cd-demo"
 
 export BUILD_PIPELINE_NAME="ci-cd-demo-trigger"
 export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
+
+export SERVICE_ACCOUNT_EMAIL="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
+export STORAGE_BUCKET_NAME="${CLUSTER_NAME}-storage-bucket"
+export STAGING_BUCKET_NAME="${CLUSTER_NAME}-staging-bucket"
+export STAGING_CLUSTER_NAME="${CLUSTER_NAME}-staging"
+export PRODUCTION_CLUSTER_NAME="${CLUSTER_NAME}-production"
 ```
 
 ## Enable Google Cloud APIs needed
@@ -31,7 +31,8 @@ export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
 gcloud services enable container.googleapis.com \
     cloudbuild.googleapis.com \
     clouddeploy.googleapis.com \
-    sourcerepo.googleapis.com \
+    storage-component.googleapis.com \
+    storage.googleapis.com \
     artifactregistry.googleapis.com
 ```
 
