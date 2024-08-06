@@ -32,9 +32,14 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_HOST
         command: ["/bin/sh", "-c"]
         args:
-          - until pg_isready -h postgres-service -p 5432 -U $POSTGRES_USER;
+          - until pg_isready -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USER;
             do
               echo "waiting for database to be ready.";
               sleep 2;
@@ -55,18 +60,16 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_USER
-        - name: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
           valueFrom:
             secretKeyRef:
               name: postgres-secret
-              key: POSTGRES_PASSWORD
+              key: POSTGRES_HOST
         - name: DOMAIN
           valueFrom:
             configMapKeyRef:
               name: domain-config
               key: DOMAIN
-        - name: POSTGRES_HOST
-          value: "postgres-service"
         livenessProbe:
           httpGet:
             path: /health

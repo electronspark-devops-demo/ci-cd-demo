@@ -5,6 +5,7 @@ resources:
   - auth-deployment.yaml
   - blog-deployment.yaml
   - ingress.yaml
+  - domain-config.yaml
 images:
   - name: frontend
     newName: frontend
@@ -12,8 +13,3 @@ images:
     newName: auth
   - name: blog
     newName: blog
-configMapGenerator:
-  - name: domain-config
-    # @TODO: need to edit dynamically
-    literals:
-      - DOMAIN=demo.electronspark.xyz

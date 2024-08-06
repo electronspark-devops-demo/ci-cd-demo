@@ -77,7 +77,7 @@ gcloud container clusters create-auto $PRODUCTION_CLUSTER_NAME --region $CLUSTER
 
 # 获取 GKE 集群凭据
 ```bash
-gcloud container clusters get-credentials hello-cloudbuild --region $CLUSTER_REGION
+gcloud container clusters get-credentials $STAGING_CLUSTER_NAME --region $CLUSTER_REGION
 ```
 
 # 使用 Skaffold 进行部署，并指定默认的镜像仓库和域名
