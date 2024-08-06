@@ -18,7 +18,7 @@ steps:
     entrypoint: /bin/sh
     args:
     - -c
-    - 'pip install flask flask-cors && python test.py -v'
+    - 'pip install -r src/frontend/requirements.txt && python test.py -v'
 
   - name: gcr.io/cloud-builders/gsutil # upload skaffold build cache
     id: upload-skaffold-cache
