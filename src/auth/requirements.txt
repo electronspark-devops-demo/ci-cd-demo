@@ -1,9 +1,6 @@
-Flask
-flask-login
+Flask==3.0.3
+Flask-CORS==4.0.1
+PyJWT==2.1.0
+Werkzeug==3.0.3
 Flask-SQLAlchemy
-sqlalchemy-utils
-Werkzeug
-pyjwt
 psycopg2-binary
-pytest
-Flask-Cors

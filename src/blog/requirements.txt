@@ -1,5 +1,6 @@
-Flask
+Flask==3.0.3
+Flask-CORS==4.0.1
+SQLAlchemy==2.0.32
+PyJWT==2.1.0
 Flask-SQLAlchemy
-pyjwt
 psycopg2-binary
-Flask-Cors
