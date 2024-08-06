@@ -10,10 +10,14 @@ app.secret_key = 'your_secret_key'
 DOMAIN = os.getenv("DOMAIN", "localhost")
 API_URL_PREFIX = f"http://{DOMAIN}/api"
 
+@app.route('/__test_probe')
+def get_index_title():
+    return "Demo Blog Website"
+
 # Routes for rendering HTML templates
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', index_title=get_index_title())
 
 @app.route('/login', methods=['POST', "GET"])
 def login():

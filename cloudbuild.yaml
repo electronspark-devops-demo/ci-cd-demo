@@ -13,6 +13,13 @@ steps:
         # skaffold build -f=skaffold.yaml --default-repo=$_DEFAULT_REPO --file-output=/workspace/artifacts.json --cache-file=/workspace/cache 
         skaffold build -f=skaffold.yaml --default-repo=us-central1-docker.pkg.dev/atlantean-wares-426921-j3/ci-cd-demo --file-output=/workspace/artifacts.json --cache-file=/workspace/cache
 
+  - name: 'python:3.12-slim'
+    id: Test
+    entrypoint: /bin/sh
+    args:
+    - -c
+    - 'pip install flask && python test.py -v'
+
   - name: gcr.io/cloud-builders/gsutil # upload skaffold build cache
     id: upload-skaffold-cache
     args: ['cp', '/workspace/cache',  $_CACHE_URI/cache]
