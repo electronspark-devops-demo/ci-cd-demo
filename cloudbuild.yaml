@@ -4,7 +4,7 @@ steps:
     entrypoint: /bin/sh
     args:
     - -c
-    - 'pip install -r src/frontend/requirements.txt && python test.py -v
+    - 'pip install -r src/frontend/requirements.txt && python test.py -v'
 
   - id: download-skaffold-cache
     name: gcr.io/cloud-builders/gsutil # get skaffold build cache
