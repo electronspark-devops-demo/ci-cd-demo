@@ -21,7 +21,6 @@ steps:
   - id: 'build-staging-image'
     name: 'gcr.io/k8s-skaffold/skaffold:v2.13.1'
     args:
-    - skaffold
     - build
     - -f=skaffold.yaml
     - --default-repo=$_REGION-docker.pkg.dev/$_PROJECT_ID/$_DEFAULT_REPO --file-output=/workspace/artifacts.json --cache-file=/workspace/cache 
