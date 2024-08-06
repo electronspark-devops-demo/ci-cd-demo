@@ -17,7 +17,9 @@ def get_index_title():
 # Routes for rendering HTML templates
 @app.route('/')
 def index():
-    return render_template('index.html', index_title=get_index_title())
+    return render_template('index.html', 
+                           index_title=get_index_title(), 
+                           index_header="This is a Demo Blog Website")
 
 @app.route('/login', methods=['POST', "GET"])
 def login():
