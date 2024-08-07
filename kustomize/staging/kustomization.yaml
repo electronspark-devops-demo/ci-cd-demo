@@ -7,13 +7,7 @@ patches:
       version: v1
       kind: Ingress
       name: ingress
-    patch: |-
-      - op: replace
-        path: /spec/rules/0/host
-        value: demo-staging.electronspark.xyz
-      - op: replace
-        path: /metadata/annotations/kubernetes.io~1ingress.global-static-ip-name
-        value: staging-ip
+    path: patches/ingress-patch.yaml
 
 patchesStrategicMerge:
   - patches/frontend-deployment-patch.yaml

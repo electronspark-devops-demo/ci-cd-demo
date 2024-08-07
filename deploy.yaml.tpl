@@ -19,7 +19,7 @@ metadata:
   name: staging
 description: Staging environment
 gke:
-  cluster: projects/atlantean-wares-426921-j3/locations/us-central1/clusters/cicd-demo-staging
+  cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$STAGING_CLUSTER_NAME
 ---
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
@@ -27,4 +27,4 @@ metadata:
   name: production
 description: Production environment
 gke:
-  cluster: projects/atlantean-wares-426921-j3/locations/us-central1/clusters/cicd-demo-production
+  cluster: projects/$PROJECT_ID/locations/$CLUSTER_REGION/clusters/$PRODUCTION_CLUSTER_NAME
