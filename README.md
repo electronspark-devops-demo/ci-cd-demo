@@ -2,12 +2,20 @@
 
 ## First set environment variables
 
+在gcloud console里克隆示例仓库，修改git仓库根目录下的`vars.sh`文件，使其能够适应你的Google Cloud环境。
+
 ```bash
+# the region of the resources needed
 export CLUSTER_REGION="us-central1"
+# the prefix of the names of staging and production clusters
 export CLUSTER_NAME="cicd-demo"
+# the domain name for the production ingress
 export DOMAIN="demo.electronspark.xyz"
+# the domain name for the staging ingress
 export STAGING_DOMAIN="demo-staging.electronspark.xyz"
+# the name associated with your global reserved external static IP for production ingress
 export PRODUCTION_INGRESS_IP_NAME="web-ip"
+# the name associated with your global reserved external static IP for staging ingress
 export STAGING_INGRESS_IP_NAME="staging-ip"
 # the owner of github repository, either user or organization
 export REPO_OWNER="electronspark-devops-demo"
@@ -19,14 +27,18 @@ export DEFAULT_REPO="ci-cd-demo"
 export BUILD_PIPELINE_NAME="ci-cd-demo-trigger"
 # the name of the cloud deploy
 export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
+```
 
-export PROJECT_ID=$(gcloud config get-value project)
-export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
-export SERVICE_ACCOUNT_EMAIL="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
-export STORAGE_BUCKET_NAME="${CLUSTER_NAME}-storage-bucket"
-export STAGING_BUCKET_NAME="${CLUSTER_NAME}-staging-bucket"
-export STAGING_CLUSTER_NAME="${CLUSTER_NAME}-staging"
-export PRODUCTION_CLUSTER_NAME="${CLUSTER_NAME}-production"
+执行以下命令导入环境变量
+
+```bash
+source sources.sh
+```
+
+并执行`substitute.sh`脚本，根据导入的环境变量修改kustomize的补丁的Cloud Deploy的configuration file，以适应你的环境。
+
+```bash
+sh substitute.sh
 ```
 
 ## Enable Google Cloud APIs needed
@@ -89,12 +101,25 @@ gcloud container clusters create-auto $STAGING_CLUSTER_NAME --region $CLUSTER_RE
 gcloud container clusters create-auto $PRODUCTION_CLUSTER_NAME --region $CLUSTER_REGION
 ```
 
+## Reserve Global Static IP
+
+```bash
+gcloud compute addresses create $PRODUCTION_INGRESS_IP_NAME \
+    --global \
+    --ip-version IPV4
+gcloud compute addresses create $STAGING_INGRESS_IP_NAME \
+    --global \
+    --ip-version IPV4
+```
+
 ## Run the following command to update the configuration file of kubectl
+
 ```bash
 gcloud container clusters get-credentials $STAGING_CLUSTER_NAME --region $CLUSTER_REGION
 ```
 
 ## Using Skaffold to build staging images, and to deploy the staging cluster
+
 ```bash
 skaffold run -f=skaffold.yaml -p staging \
 --default-repo=${CLUSTER_REGION}-docker.pkg.dev/${PROJECT_ID}/${DEFAULT_REPO}
@@ -102,7 +127,7 @@ skaffold run -f=skaffold.yaml -p staging \
 
 ## Create a Cloud Build Trigger that will be triggered each time the main branch of the demo git repository changes.
 
-It will use default Compute Engine service account for image building process.
+It will use the default Compute Engine service account for the CI pipeline.
 
 ```bash
 gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
@@ -116,6 +141,31 @@ gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
 
 ## Configure Cloud Deploy
 
+Create a cloud deploy delivery pipeline and two targets based on `deploy.yaml` file on the root path of the git repository. This will create two targets, one for deploying the staging cluster, and one for deploying the production cluster.
+
 ```bash
 gcloud deploy apply --file=deploy.yaml --region=$CLUSTER_REGION --project=$PROJECT_ID
 ```
+
+## Trigger the CI pipeline
+
+现在修改代码
+
+将刚刚的更改提交到github上去，这一动作将触发Cloud Build的CI pipeline。
+
+```bash
+git add --all
+git commit -m "some changes"
+git push
+```
+
+In the Google Cloud console navigation menu, click `Cloud Build` > `History`
+
+查看刚刚的build记录
+
+
+
+
+
+
+https://cloud.google.com/build/docs/automate-builds

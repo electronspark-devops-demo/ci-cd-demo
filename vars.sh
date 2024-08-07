@@ -4,9 +4,6 @@ export DOMAIN="demo.electronspark.xyz"
 export STAGING_DOMAIN="demo-staging.electronspark.xyz"
 export PRODUCTION_INGRESS_IP_NAME="web-ip"
 export STAGING_INGRESS_IP_NAME="staging-ip"
-# the owner of github repository, either user or organization
 export REPO_OWNER="electronspark-devops-demo"
-# the name of github repository
 export REPO_NAME="ci-cd-demo"
-# the name of artifact registry
 export DEFAULT_REPO="ci-cd-demo"
