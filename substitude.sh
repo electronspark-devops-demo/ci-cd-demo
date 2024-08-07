@@ -8,9 +8,9 @@ sed "s/\$PRODUCTION_CLUSTER_NAME/$PRODUCTION_CLUSTER_NAME/g" \
 > deploy.yaml
 
 # generate patches for domain name config map
-sed "s/\$DOMAIN/$DOMAIN/g" kustomize/templates/domain-config.yaml.tpl | \
+sed "s/\$DOMAIN/$DOMAIN/g" kustomize/templates/domain-config.yaml.tpl \
 > kustomize/production/patches/domain-config.yaml
-sed "s/\$DOMAIN/$STAGING_DOMAIN/g" kustomize/templates/domain-config.yaml.tpl | \
+sed "s/\$DOMAIN/$STAGING_DOMAIN/g" kustomize/templates/domain-config.yaml.tpl \
 > kustomize/staging/patches/domain-config.yaml
 
 # generate patches for ingress
