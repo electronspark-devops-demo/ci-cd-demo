@@ -33,12 +33,6 @@ export REPO_NAME="ci-cd-demo"
 
 # The name of the Artifact Registry
 export DEFAULT_REPO="ci-cd-demo"
-
-# The name of the Cloud Build trigger
-export BUILD_PIPELINE_NAME="ci-cd-demo-trigger"
-
-# The name of the Cloud Deploy pipeline
-export DELIVERY_PIPELINE_NAME="ci-cd-demo-cd"
 ```
 
 Execute the following command to load the environment variables:
