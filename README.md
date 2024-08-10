@@ -4,7 +4,7 @@ This repository demonstrates a CI/CD pipeline using Google Cloud Platform servic
 
 ### Step 1: Set Environment Variables
 
-First, clone the sample repository in the Google Cloud console. Modify the `vars.sh` file located at the root of the Git repository to match your Google Cloud environment.
+First, clone the forked sample repository in the Google Cloud console. Modify the `vars.sh` file located at the root of the Git repository to match your Google Cloud environment.
 
 ```bash
 # The region where the resources are deployed
