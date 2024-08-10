@@ -163,7 +163,13 @@ In the Google Cloud console navigation menu, click `Cloud Build` > `History`
 
 查看刚刚的build记录
 
+查看Cloud Trigger
 
+展示staging domian的首页
+
+在Cloud Trigger中将网站从staging cluster做promote操作到production cluster
+
+展示production domain的首页
 
 
 
