@@ -151,25 +151,24 @@ skaffold run -f=skaffold.yaml -p staging \
 --default-repo=${CLUSTER_REGION}-docker.pkg.dev/${PROJECT_ID}/${DEFAULT_REPO}
 ```
 
-### Step
+### Step 10: Connect Cloud Build to GitHub
 
-在创建 Cloud Build Trigger 前需要先将 Cloud Build 连接到目标的 Github 仓库。
+Before creating the Cloud Build Trigger, you need to connect Cloud Build to your target GitHub repository.
 
-![](./images/2-1-cloud_build_triggers.png)
+![connect to github](./images/2-1-cloud_build_triggers.png)
 
-选择 Github (Cloud Build GitHub App)
+In the Google Cloud console, navigate to **Cloud Build > Triggers**.
+Select **GitHub (Cloud Build GitHub App)** as your source code management provider.
 
-![](./images/2-2-select_source_code_management_provider.png)
+![select repository](./images/2-2-select_source_code_management_provider.png)
 
-在完成 github 的认证后，选择需要连接的仓库。
+After completing the GitHub authentication, select the repository you want to connect.
 
-![](./images/2-3-select_repository.png)
+![repository connected](./images/2-4-confirm_connection.png)
 
-最后先不在这里创建 Trigger。
+Confirm the connection without creating a trigger yet.
 
-![](./images/2-4-confirm_connection.png)
-
-### Step 10: Create Cloud Build Trigger
+### Step 11: Create Cloud Build Trigger
 
 Create a Cloud Build Trigger that will be triggered whenever the main branch of the Git repository changes. The CI pipeline will use the default Compute Engine service account:
 
@@ -183,11 +182,11 @@ gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
             --substitutions=_REGION=${CLUSTER_REGION},_CLUSTER=hello-cloudbuild,_CACHE_URI=gs://$STORAGE_BUCKET_NAME,_DELIVERY_PIPELINE_NAME=$DELIVERY_PIPELINE_NAME,_SOURCE_STAGING_BUCKET=gs://$STAGING_BUCKET_NAME,_DEFAULT_REPO=$DEFAULT_REPO,_PROJECT_ID=$PROJECT_ID
 ```
 
-完成了对 Trigger 的创建后，在 **Cloud Build -> Triggers** 页面中可以看到刚刚创建的 Trigger
+After creating the Trigger, navigate to **Cloud Build > Triggers** to view the newly created Trigger.
 
-![](./images/3-1-trigger_created.png)
+![trigger created](./images/3-1-trigger_created.png)
 
-### Step 11: Configure Cloud Deploy
+### Step 12: Configure Cloud Deploy
 
 Create a Cloud Deploy delivery pipeline and two targets (staging and production) based on the `deploy.yaml` file in the root directory of the Git repository:
 
@@ -195,15 +194,15 @@ Create a Cloud Deploy delivery pipeline and two targets (staging and production)
 gcloud deploy apply --file=deploy.yaml --region=$CLUSTER_REGION --project=$PROJECT_ID
 ```
 
-完成 Delivery Pipeline 的创建后，在 **Cloud Deploy -> Delivery Pipelines** 页面中可以看到刚刚创建的 Pipeline。
+Once the Delivery Pipeline is created, you can view it in **Cloud Deploy -> Delivery Pipelines**.
 
-![](./images/5-1-delivery_pipeline_created.png)
+![delivery pipeline created](./images/5-1-delivery_pipeline_created.png)
 
-而在 **Cloud Deploy -> Targets** 页面中可以看到与该 Pipeline 一同创建的 Cloud Deploy Targets。
+You can also view the Cloud Deploy Targets associated with this pipeline in **Cloud Deploy -> Targets**.
 
-![](./images/5-2-delivery_targets.png)
+![delivery targets](./images/5-2-delivery_targets.png)
 
-### Step 12: Trigger the CI Pipeline
+### Step 13: Trigger the CI Pipeline
 
 Now, make changes to your code and commit them to GitHub. This action will trigger the Cloud Build CI pipeline.
 
@@ -213,48 +212,54 @@ git commit -m "some changes"
 git push
 ```
 
-### Step 13: Verify Build and Deployment
+### Step 14: Verify Build and Deployment
 
 In the Google Cloud console, navigate to **Cloud Build > History** to view the build records.
 
-![](./images/4-1-build_history.png)
+![build history](./images/4-1-build_history.png)
 
-点击刚刚被触发的 Cloud Build Record，查看 CI Pipeline 的执行细节。下图为 Cloud Build Trigger 成功执行后的截图。
+Click on the triggered Cloud Build Record to see the execution details of the CI pipeline. The following image shows a successful Cloud Build Trigger execution:
 
-![](./images/6-1-cloud_build_triggered.png)
+![cloud build triggered](./images/6-1-cloud_build_triggered.png)
 
 打开 Cloud Delivery Pipeline 的详细界面，可以看到 CD Pipeline 已经将 App 部署到了 Staging Cluster 之上。
 
-![](./images/6-2-cloud_deploy_staging.png)
+Open the Cloud Delivery Pipeline detail page to see that the CD Pipeline has deployed the app to the Staging Cluster.
+
+![staging deployment](./images/6-2-cloud_deploy_staging.png)
 
 Verify the delivery by checking the staging domain homepage.
 
-![](./images/6-3-web_staging.png)
+![staging domain home page](./images/6-3-web_staging.png)
 
-而 production domain 的首页却无法访问，这是因为现在还没有将当前的 Release 从 Staging promote 到 Production。
+At this point, the production domain homepage will be inaccessible because the release has not yet been promoted from Staging to Production.
 
-![](./images/6-4-web_production.png)
+![production domain home page unavailable](./images/6-4-web_production.png)
 
-如果 App 在 Staging 阶段没有发现任何问题，就可以回到 Delivery Pipeline 的详细页面将其 promote 到 Production cluster（如下图所示）。
+If no issues are found during the Staging phase, return to the Delivery Pipeline detail page and promote the release to the Production cluster as shown below.
 
-![](./images/7-0-cloud_deploy_do_promote.png)
+![promote to production](./images/7-0-cloud_deploy_do_promote.png)
 
-![](./images/7-1-cloud_deploy_promote.png)
+![promote conformation](./images/7-1-cloud_deploy_promote.png)
 
-完成在 Production Cluster 的部署后 Delivery Pipeline 的详细界面会显示如下图所示。
+After successfully deploying to the Production Cluster, the Delivery Pipeline detail page will show the following:
 
-![](./images/7-2-cloud_deploy_promoted.png)
+![production deployment completed](./images/7-2-cloud_deploy_promoted.png)
 
 现在再尝试访问 Production Domain 的首页，已经成功加载首页的内容。
 
-![](./images/7-3-web_production.png)
+![production domain home page available](./images/7-3-web_production.png)
 
-CI Pipeline 在将更改后的代码打包成容器镜像并在 CD Pipeline 中创建新的 Release 之前，会先进行一系列测试。本示例仓库包含一个简单的单元测试，用于展示 CI Pipeline 如何自动对代码进行测试。该测试会调用 `src/frontend/app.py` 中的 `get_index_title` 函数，只有当其返回了 “Demo Blog Website” 时该测试才算通过。现在就对该函数做出如下的改动，再将这个改动提交到github上
+### Step 15: Testing the CI Pipeline
 
-![](./images/8-1-modify_source_code.png)
+The CI pipeline performs a series of tests before packaging the code into a container image and creating a new release in the CD pipeline. This sample repository includes a simple unit test to demonstrate how the CI pipeline automatically tests the code.
 
-回到 **Cloud Build > History** 中查看最新一次Trigger的执行情况，可以看到 Cloud Build 在测试的这一步骤中执行失败，因此下面的步骤也就此被放弃。
+The test calls the `get_index_title` function in `src/frontend/app.py`, and the test passes only if the function returns "Demo Blog Website". Now, make the following change to the function and commit the change to GitHub:
 
-![](./images/8-2-unit_test_failed.png)
+![modify source code](./images/8-1-modify_source_code.png)
+
+Go back to **Cloud Build > History** to check the execution status of the latest trigger. As shown below, the Cloud Build failed during the testing step, causing subsequent steps to be skipped.
+
+![unit test failed](./images/8-2-unit_test_failed.png)
 
 https://cloud.google.com/build/docs/automate-builds
