@@ -151,6 +151,16 @@ skaffold run -f=skaffold.yaml -p staging \
 --default-repo=${CLUSTER_REGION}-docker.pkg.dev/${PROJECT_ID}/${DEFAULT_REPO}
 ```
 
+### Step
+
+![](./images/2-1-cloud_build_triggers.png)
+
+![](./images/2-2-select_source_code_management_provider.png)
+
+![](./images/2-3-select_repository.png)
+
+![](./images/2-4-confirm_connection.png)
+
 ### Step 10: Create Cloud Build Trigger
 
 Create a Cloud Build Trigger that will be triggered whenever the main branch of the Git repository changes. The CI pipeline will use the default Compute Engine service account:
@@ -165,6 +175,8 @@ gcloud builds triggers create github --name="${BUILD_PIPELINE_NAME}" \
             --substitutions=_REGION=${CLUSTER_REGION},_CLUSTER=hello-cloudbuild,_CACHE_URI=gs://$STORAGE_BUCKET_NAME,_DELIVERY_PIPELINE_NAME=$DELIVERY_PIPELINE_NAME,_SOURCE_STAGING_BUCKET=gs://$STAGING_BUCKET_NAME,_DEFAULT_REPO=$DEFAULT_REPO,_PROJECT_ID=$PROJECT_ID
 ```
 
+![](./images/3-1-trigger_created.png)
+
 ### Step 11: Configure Cloud Deploy
 
 Create a Cloud Deploy delivery pipeline and two targets (staging and production) based on the `deploy.yaml` file in the root directory of the Git repository:
@@ -172,6 +184,10 @@ Create a Cloud Deploy delivery pipeline and two targets (staging and production)
 ```bash
 gcloud deploy apply --file=deploy.yaml --region=$CLUSTER_REGION --project=$PROJECT_ID
 ```
+
+![](./images/5-1-delivery_pipeline_created.png)
+
+![](./images/5-2-delivery_targets.png)
 
 ### Step 12: Trigger the CI Pipeline
 
@@ -187,10 +203,30 @@ git push
 
 In the Google Cloud console, navigate to **Cloud Build > History** to view the build records.
 
+![](./images/4-1-build_history.png)
+
+![](./images/6-1-cloud_build_triggered.png)
+
+![](./images/6-2-cloud_deploy_staging.png)
+
 Verify the deployment by checking the staging domain homepage. If everything looks good, promote the site from the staging cluster to the production cluster via Cloud Deploy.
+
+![](./images/6-3-web_staging.png)
+
+![](./images/6-4-web_production.png)
+
+![](./images/7-0-cloud_deploy_do_promote.png)
+
+![](./images/7-1-cloud_deploy_promote.png)
+
+![](./images/7-2-cloud_deploy_promoted.png)
+
+![](./images/7-3-web_production.png)
 
 Finally, verify the production domain homepage.
 
+![](./images/8-1-modify_source_code.png)
 
+![](./images/8-2-unit_test_failed.png)
 
 https://cloud.google.com/build/docs/automate-builds
