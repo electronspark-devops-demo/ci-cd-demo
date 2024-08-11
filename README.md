@@ -222,8 +222,6 @@ Click on the triggered Cloud Build Record to see the execution details of the CI
 
 ![cloud build triggered](./images/6-1-cloud_build_triggered.png)
 
-打开 Cloud Delivery Pipeline 的详细界面，可以看到 CD Pipeline 已经将 App 部署到了 Staging Cluster 之上。
-
 Open the Cloud Delivery Pipeline detail page to see that the CD Pipeline has deployed the app to the Staging Cluster.
 
 ![staging deployment](./images/6-2-cloud_deploy_staging.png)
@@ -246,7 +244,7 @@ After successfully deploying to the Production Cluster, the Delivery Pipeline de
 
 ![production deployment completed](./images/7-2-cloud_deploy_promoted.png)
 
-现在再尝试访问 Production Domain 的首页，已经成功加载首页的内容。
+Finally, try accessing the Production Domain homepage again, which should now successfully load the content.
 
 ![production domain home page available](./images/7-3-web_production.png)
 
